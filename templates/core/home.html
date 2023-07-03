@@ -1,6 +1,11 @@
 {% extends '_base.html' %}
+{% load static %}
 
 
+{% block css %}
+    <link rel="stylesheet" href="{% static 'style/home.css' %}">
+{% endblock css %}
+    
 
 {% block title %}
 Social Book
@@ -8,6 +13,78 @@ Social Book
     
 
 {% block content %}
-    Welcome
+<div class="container">
+    <div class="cards">
+        <div class="card-item card mt-5 mb-3">
+            <div>
+            <img src="{% static 'images/Python-vs-Java.webp' %}" class="card-img-top" alt="...">
+            </div>
+            <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <h5 class="card-title d-flex justify-content-between">@Usernam</h5>
+                <form action="">
+                    <input type="hidden"><i class="fa-solid fa-thumbs-up fa-lg"></i>
+                </form>
+            </div>
+            <p class="card-text mt-3">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officiis deleniti illum porro, amet sit cum nulla, ex corrupti vitae deserunt ratione tempora suscipit, voluptate repudiandae consectetur mollitia accusamus libero autem.</p>
+            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            <div comment>
+                <form action="">
+                    <label for="">Comment</label><br>
+                    <input type="text">
+                </form>
+            </div>
+            </div>
+        </div>
+        <div class="card-item card mb-3">
+            <img src="{% static 'images/dj_vs_sp.jpeg' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card-item card mb-3">
+            <img src="{% static 'images/TW_vs_Boo.png' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+    </div>
+    <div class="suggestions mt-5 ">
+        
+        <ol class="list-group list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+            <img class="suggestion-img" src="{% static 'images/avatar.svg' %}" alt="">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">@username</div>
+                215k followers
+              </div>
+              <span class="badge bg-primary rounded-pill">Follow</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+            <img class="suggestion-img" src="{% static 'images/avatar.svg' %}" alt="">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">@username</div>
+                100 followers
+              </div>
+              <span class="badge bg-primary rounded-pill">Follow</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+            <img class="suggestion-img" src="{% static 'images/avatar.svg' %}" alt="">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">@username</div>
+                20 followers
+              </div>
+              <span class="badge bg-primary rounded-pill">Follow</span>
+            </li>
+          </ol>
+    </div>
+</div>
+
+
+
 {% endblock content %}
     

@@ -1,0 +1,27 @@
+.container{
+    display: flex;
+    
+    /* justify-content: center;
+    align-items: center;
+    flex-direction: column; */
+    
+
+}
+
+.card {
+    width: 600px; /* Set the desired width here */
+  }
+
+.cards{
+    margin-left: 10rem;
+}
+
+.suggestions{
+    width: 300px;
+    margin-left: 3rem;
+}
+
+.suggestion-img{
+    border-radius: 50%;
+    width: 60px;
+}
