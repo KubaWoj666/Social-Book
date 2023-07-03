@@ -1,0 +1,74 @@
+{% extends "_base.html" %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% load static %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'style/login.css'%}">
+{% endblock css %}
+    
+
+
+{% block title %}Sign Up{% endblock title %}
+
+{% block content %}
+
+<!-- <div class="login-page">
+    <div class="form">
+        <h2>Sign Up</h2>
+        <form method="post" class="login-form mt-3">
+            {% csrf_token %}        
+            {{form|crispy}}
+            <button class="btn btn-success" type="submit">Create Account</button>
+        </form>
+    </div>
+</div>
+<div>
+    
+</div> -->
+
+
+
+
+<div class="login-page ">
+    <div class="form">
+        <h2>Sign Up</h2>
+    <form  method="POST" autocomplete='off' class="login-form mt-3">
+        {% csrf_token %}
+
+        <div class="forms-control mt-2 {% if field.errors %} errors {% endif %}">
+            <label  >{{ form.username.label_tag }}</label>
+            {{ form.username.errors }}
+            {% render_field form.username class="form-control " hx-post="/htmx/check_username" hx-swap="innerHTML" hx-trigger="keyup delay:1s" hx-target="#username-error"%}
+            
+            <div id="username-error"></div>
+        </div>
+            
+        <div  class="forms-control mt-2 {% if field.errors %} errors {% endif %}" >
+            <label  >Email address</label><br>
+            {{ form.email.errors }}
+            {% render_field form.email class="form-controls " %}
+        </div>
+
+        <div class="forms-control mt-2 {% if field.errors %} errors {% endif %}">
+            <label >{{ form.password1.label_tag }}</label>
+            {{ form.password1.errors }}
+            {% render_field form.password1 class="form-control " %}
+        </div>
+
+        <div class="forms-control mt-2 {% if field.errors %} errors {% endif %}">
+            <label >{{ form.password2.label_tag }}</label>
+            {{ form.password2.errors }}
+            {% render_field form.password2 class="form-control " %}
+        </div>
+        
+        <button id="meetup_button" class="button-form btn btn-success mt-4 " type="submit">Register</button>
+        <p class="message">Already registered? <a href="../login">Sign In</a></p>
+    </form>
+    </div>
+</div>
+
+
+
+{% endblock content %}

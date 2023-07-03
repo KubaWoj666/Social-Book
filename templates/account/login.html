@@ -1,0 +1,52 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'style/login.css' %}">
+{% endblock css %}
+    
+
+
+{% block title %}Log In{% endblock title %}
+
+{% block content %}
+<!-- <div class="login-page">
+    <div class="form">
+      <form method="post" class="login-form">
+        {% csrf_token %}
+        <div class=" forms-control mt-2 ">
+            {{ form.login.errors }}
+            {% render_field form.login class="form-control border border-success border border-1" hx-post="/htmx/check_username" hx-swap="innerHTML" hx-trigger="keyup delay:1s" hx-target="#username-error"%}
+        </div>
+        <div class=" forms-control mt-2 ">
+            {{ form.password.errors }}
+            {% render_field form.password class="form-control "%}
+        </div>
+        <button>login</button>
+        <p class="message">Not registered? <a href="#">Create an account</a></p>
+      </form>
+    </div>
+  </div> -->
+
+
+<div class="login-page">
+    <div class="form">
+        <h2>Log in</h2>
+        <form method="post" class="login-form mt-3">
+            {% csrf_token %}
+            {{form|crispy}}
+            <button class="btn btn-success" type="submit">Log In</button>
+            <p class="message">Not registered? <a href="../signup">Create an account</a></p>
+
+        </form>
+    </div>
+</div>
+<div>
+    
+</div>
+{% endblock content %}
