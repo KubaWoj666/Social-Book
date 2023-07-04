@@ -1,27 +1,28 @@
-.container{
-    display: flex;
-    
-    /* justify-content: center;
-    align-items: center;
+.container {
+    /* display: flex;
+    justify-content: center;
     flex-direction: column; */
-    
+}
 
+.post-container {
+    float: left;
 }
 
 .card {
     width: 600px; /* Set the desired width here */
-  }
+}
 
-.cards{
+.cards {
     margin-left: 10rem;
 }
 
-.suggestions{
+.suggestions {
+    float: left;
     width: 300px;
     margin-left: 3rem;
 }
 
-.suggestion-img{
+.suggestion-img {
     border-radius: 50%;
     width: 60px;
 }
