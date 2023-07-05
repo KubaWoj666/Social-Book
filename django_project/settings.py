@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'core',
 
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -161,9 +162,13 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LOGIN_REDIRECT_URL = "/"
 
+
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"  
 CRISPY_TEMPLATE_PACK = "bootstrap5"  
 
 # for tests
 NOSE_ARGS = ['--nocapture',
              '--nologcapture',]
+
+
+ACCOUNT_ADAPTER = 'core.adapter.MyAccountAdapter'

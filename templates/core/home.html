@@ -23,7 +23,7 @@ Social Book
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <h5 class="card-title d-flex justify-content-between"><a href="">@{{post.user.username}} </a>| {{post.title}}</h5>
+                            <h5 class="card-title d-flex justify-content-between"><a href="{% url 'profile' post.user.id %}">@{{post.user.username}} </a>| {{post.title}}</h5>
                             <form action="">
                                 <input type="hidden"><i class="fa-solid fa-thumbs-up fa-lg"></i>
                             </form>

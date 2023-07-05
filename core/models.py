@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 import uuid
 
@@ -15,6 +16,9 @@ class Profile(models.Model):
 
     def __str__(self) -> str:
         return self.user.username
+    
+    def get_absolute_url(self):
+        return reverse('profile', args=[self.user.id])
 
 
 
@@ -29,6 +33,9 @@ class Post(models.Model):
 
     def __str__(self) -> str:
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse('post-detail', ards=[self.id])
     
 
 class Likes(models.Model):

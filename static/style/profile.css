@@ -17,10 +17,11 @@ body {
 
 .profile-head img {
     margin: 0 auto;
-    margin-top: 200px;
+    margin-top: 250px;
     border-radius: 50%;
     max-width: 100%;
-    width: 100%;
+    width: 500px;
+    height: 300px;
 }
 
 .profile-head h5 {
