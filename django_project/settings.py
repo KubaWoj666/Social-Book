@@ -157,10 +157,13 @@ AUTHENTICATION_BACKENDS = [
     ]
 
 
-
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
 
 LOGIN_REDIRECT_URL = "/"
 
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"  # new
-CRISPY_TEMPLATE_PACK = "bootstrap5"  # new
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"  
+CRISPY_TEMPLATE_PACK = "bootstrap5"  
+
+# for tests
+NOSE_ARGS = ['--nocapture',
+             '--nologcapture',]

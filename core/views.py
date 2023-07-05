@@ -10,7 +10,7 @@ from django.contrib.auth.forms import UserCreationForm
 # Create your views here.
 
 def home_view(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by("-created")
     if request.method == "POST":
         form = CreatePostForm(request.POST, request.FILES)
         if form.is_valid():
@@ -29,6 +29,10 @@ def home_view(request):
 
 
 def profile(request):
+    user = request.users
+    context = {
+        "uesr": user
+    }
     return render(request, "core/profile.html")
 
 # def create_post(request):
