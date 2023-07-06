@@ -1,11 +1,14 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from .models import Post, Profile
-from .forms import CreatePostForm
+from .forms import CreatePostForm, CreateProfile
 
 
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+
+
+from allauth.account.views import SignupView
 
 # Create your views here.
 
@@ -31,7 +34,9 @@ def home_view(request):
 
 
 def profile(request, pk):
-    profile = Profile.objects.get(user_id=pk)
+    user = User.objects.get(username=pk)
+    print(user)
+    profile = Profile.objects.get(user=user.id)
     context = {
         "profile": profile
     }
@@ -41,11 +46,42 @@ def profile(request, pk):
 #     return render(request, "core/create_post.html")
 
 
-def account_view(request, pk):
-    user = User.objects.get(id=pk)
+def account_view(request):
+    user = request.user
+    if request.method == "POST":
+        form = CreateProfile(request.POST, request.FILES)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = user
+            profile.save()
+            return redirect("profile", pk=user.username)
+    else:
+        form = CreateProfile()
+    
+    context = {
+        "user": user,
+        "form": form
+    }
+    return render(request, "core/account.html", context)
+    
 
-    context={
-        "user": user
+def settings_view(request):
+    user = request.user
+    profile = Profile.objects.get(user=user)
+
+    if request.method == "POST":
+        form = CreateProfile(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect("profile", pk=user.username)
+    else:
+        form = CreateProfile(instance=profile)
+    
+    context = {
+        "form":form
     }
 
-    return render(request, "core/account.html", context)
+    return render(request, "core/settings.html", context)
+
+
+    
