@@ -22,13 +22,13 @@
         <div class="bg-white shadow rounded overflow-hidden">
             <div class="px-4 pt-0 pb-4 bg-dark">
                 <div class="media align-items-end profile-header">
-                    
-                    {% if request.user.username == profile.user.username %}
-                    <div class="profile mr-3"><img src="{{profile.image.url}}" alt="..." width="130" class="rounded mb-2 img-thumbnail"><a href="{%url 'settings' %}" class="btn btn-dark btn-sm btn-block">Edit profile</a></div>
-                    {% else %}
-                    <div class="profile mr-3"><img src="{{profile.image.url}}" alt="..." width="130" class="rounded mb-2 img-thumbnail"><a href="" class="btn btn-dark btn-sm btn-block">Follow</a></div>
-
-                    {% endif %}
+                    <div class="profile mr-3"><img src="{{profile.image.url}}" alt="..." width="130" class="rounded mb-2 img-thumbnail">
+                        {% if request.user.username == profile.user.username %}
+                            <a href="{%url 'settings' %}" class="btn btn-dark btn-sm btn-block">Edit profile</a>
+                        {% else %}
+                            <a href="" class="btn btn-dark btn-sm btn-block">Follow</a>
+                        {% endif %}
+                    </div>
                         
                     <div class="media-body mb-5 text-white">
                         <h4 class="mt-0 mb-0">{{profile.user.username}}</h4>
