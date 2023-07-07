@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
 from .models import Post, Profile
 from .forms import CreatePostForm, CreateProfile
@@ -12,6 +13,7 @@ from allauth.account.views import SignupView
 
 # Create your views here.
 
+@login_required(login_url="account_login")
 def home_view(request):
     page = "home"
     posts = Post.objects.all().order_by("-created")
@@ -32,20 +34,19 @@ def home_view(request):
     }
     return render(request, "core/home.html", context)
 
-
+@login_required(login_url="account_login")
 def profile(request, pk):
     user = User.objects.get(username=pk)
-    print(user)
     profile = Profile.objects.get(user=user.id)
+    posts = Post.objects.filter(user=user)
     context = {
-        "profile": profile
+        "profile": profile,
+        "posts" : posts
     }
     return render(request, "core/profile.html", context)
 
-# def create_post(request):
-#     return render(request, "core/create_post.html")
 
-
+@login_required(login_url="account_login")
 def account_view(request):
     user = request.user
     if request.method == "POST":
@@ -64,7 +65,7 @@ def account_view(request):
     }
     return render(request, "core/account.html", context)
     
-
+@login_required(login_url="account_login")
 def settings_view(request):
     user = request.user
     profile = Profile.objects.get(user=user)

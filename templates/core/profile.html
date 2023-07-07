@@ -41,7 +41,7 @@
             <div class="bg-light p-4 d-flex justify-content-end text-center">
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">241</h5><small class="text-muted"> <i class="fa fa-picture-o mr-1"></i>Photos</small>
+                        <h5 class="font-weight-bold mb-0 d-block">{{posts.count}}</h5><small class="text-muted"> <i class="fa fa-picture-o mr-1"></i>Posts</small>
                     </li>
                     <li class="list-inline-item">
                         <h5 class="font-weight-bold mb-0 d-block">84K</h5><small class="text-muted"> <i class="fa fa-user-circle-o mr-1"></i>Followers</small>
@@ -54,10 +54,9 @@
                     <h5 class="mb-0">Recent photos</h5><a href="#" class="btn btn-link text-muted">Show all</a>
                 </div>
                 <div class="row">
-                    <div class="col-lg-6 mb-2 pr-lg-1"><img src="https://bootstrapious.com/i/snippets/sn-profile/img-3.jpg" alt="" class="img-fluid rounded shadow-sm"></div>
-                    <div class="col-lg-6 mb-2 pl-lg-1"><img src="https://bootstrapious.com/i/snippets/sn-profile/img-4.jpg" alt="" class="img-fluid rounded shadow-sm"></div>
-                    <div class="col-lg-6 pr-lg-1 mb-2"><img src="https://bootstrapious.com/i/snippets/sn-profile/img-5.jpg" alt="" class="img-fluid rounded shadow-sm"></div>
-                    <div class="col-lg-6 pl-lg-1"><img src="https://bootstrapious.com/i/snippets/sn-profile/img-6.jpg" alt="" class="img-fluid rounded shadow-sm"></div>
+                    {% for post in posts|slice:"4" %}
+                    <div class="col-lg-6 mb-2 pr-lg-1"><img src="{{post.image.url}}" alt="" class="img-fluid rounded shadow-sm"></div>
+                    {% endfor %}                        
                 </div>
                 <div class="py-4">
                     <h5 class="mb-3">Recent posts</h5>
