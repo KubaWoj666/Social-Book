@@ -42,6 +42,8 @@ class Likes(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     liked = models.BooleanField(default=False)
+    class Meta:
+        verbose_name_plural = "Likes"
 
     def __str__(self) -> str:
         return self.user
@@ -50,6 +52,8 @@ class Likes(models.Model):
 class Followers(models.Model):
     follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name="followers")
     following = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following")
+    class Meta:
+        verbose_name_plural = "Follows"
 
     def __str__(self) -> str:
-        return self.follower
+        return self.follower.username

@@ -7,6 +7,7 @@ class CreatePostForm(forms.ModelForm):
         model = Post
         fields = ["image", "title", "description"]
 
+
 class CreateProfile(forms.ModelForm):
     class Meta:
         model = Profile
