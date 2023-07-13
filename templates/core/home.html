@@ -24,8 +24,14 @@ Social Book
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h5 class="card-title d-flex justify-content-between"><a href="{% url 'profile' post.user.username %}">@{{post.user.username}} </a>| {{post.title}}</h5>
-                            <form action="">
-                                <input type="hidden"><i class="fa-solid fa-thumbs-up fa-lg"></i>
+                            <form hx-post="{% url 'home' %}">
+                                <input type="hidden" name="post_id" value="{{post.id}}">
+                                {% if post.id in request_user_liked_posts %}
+                                    <button type="submit" class="btn btn-link mt-2"><i class="fa-solid fa-heart fa-xl " style="color: #f2075a;"></i></button>
+                                    
+                                {% else %}
+                                    <button hx-post="" type="button" class="btn btn-link mt-2"><i class="fa-regular fa-heart fa-xl" style="color: #f2075a;"></i></button>
+                                {% endif %}
                             </form>
                         </div>
                         <p class="card-text mt-3">{{post.description}}</p>

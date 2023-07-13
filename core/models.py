@@ -35,7 +35,7 @@ class Post(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return reverse('post-detail', ards=[self.id])
+        return reverse('post-detail', args=[self.id])
     
 
 class Likes(models.Model):
@@ -46,7 +46,7 @@ class Likes(models.Model):
         verbose_name_plural = "Likes"
 
     def __str__(self) -> str:
-        return self.user
+        return self.user.username
 
 
 class Followers(models.Model):
