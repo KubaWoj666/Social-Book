@@ -26,9 +26,8 @@ Social Book
                             <h5 class="card-title d-flex justify-content-between"><a href="{% url 'profile' post.user.username %}">@{{post.user.username}} </a>| {{post.title}}</h5>
                             <form hx-post="{% url 'home' %}">
                                 <input type="hidden" name="post_id" value="{{post.id}}">
-                                {% if post.id in request_user_liked_posts %}
+                                {% if post.id in request_user_liked_post %}
                                     <button type="submit" class="btn btn-link mt-2"><i class="fa-solid fa-heart fa-xl " style="color: #f2075a;"></i></button>
-                                    
                                 {% else %}
                                     <button hx-post="" type="button" class="btn btn-link mt-2"><i class="fa-regular fa-heart fa-xl" style="color: #f2075a;"></i></button>
                                 {% endif %}
@@ -49,39 +48,17 @@ Social Book
     </div>
     
     <div class="suggestions mt-5">
-        <ol class="list-group list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <img class="suggestion-img" src="{% static 'images/avatar.svg' %}" alt="">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">@username</div>
-                    215k followers
-                </div>
-                <span class="badge bg-primary rounded-pill">Follow</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <img class="suggestion-img" src="{% static 'images/avatar.svg' %}" alt="">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">@username</div>
-                    100 followers
-                </div>
-                <span class="badge bg-primary rounded-pill">Follow</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <img class="suggestion-img" src="{% static 'images/avatar.svg' %}" alt="">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">@username</div>
-                    20 followers
-                </div>
-                <span class="badge bg-primary rounded-pill">Follow</span>
-            </li>
-        </ol>
+        
+        {% include 'core/partials/follow_suggestions.html' %}
+        
     </div>
 </div>
 
 
-{% include 'core/create_post.html' %}
+{% include 'core/partials/create_post.html' %}
+
 
 
 
 {% endblock content %}
-    
+    parccials

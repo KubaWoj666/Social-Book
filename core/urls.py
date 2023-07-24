@@ -7,6 +7,7 @@ urlpatterns = [
     # path("create-post", views.create_post, name="create-post"),
     path("account", views.account_view, name="account"),
     path("settings", views.settings_view, name="settings"),
+    path("follow-suggestions", views.follow_suggestions, name="follow-suggestions")
     # path("follow", views.follow_view, name="follow"),
 
 

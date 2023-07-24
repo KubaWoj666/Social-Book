@@ -1,10 +1,12 @@
+import random
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+
 
 from .models import Post, Profile, Followers, Likes
 from .forms import CreatePostForm, CreateProfile
-
 from django.contrib.auth.models import User
 
 from allauth.account.views import SignupView
@@ -41,20 +43,28 @@ def home_view(request):
             return HttpResponseClientRefresh()
     
     user = request.user
-    request_user_liked_posts = [post.id for post in posts if Likes.objects.filter(post=post, user=user, liked=True).exists()] 
+    request_user_liked_post = [post.id for post in posts if Likes.objects.filter(post=post, user=user, liked=True).exists()] 
+            
     
-    # liked_posts = Post.objects.filter(likes__liked=True)
+    user_following = Followers.objects.filter(follower=user).values_list('following__id', flat=True)
+
+    user_suggestions = User.objects.exclude(pk=user.id).exclude(pk__in=user_following)
     
-    
-    print(count_like)
-        
-    likes_by_meetup = {meetup.slug: meetup.like_set.filter(meetup=meetup, liked=True).count() for meetup in meetups }
+    try:
+        user_suggestions = random.sample(list(user_suggestions), 3)
+    except:
+        user_suggestions = user_suggestions
+
+
+
+
     context = {
         "posts": posts,
         "form": form,
         "page": page,
-        "request_user_liked_posts": request_user_liked_posts,
-        # "liked_posts": liked_posts
+        "request_user_liked_post": request_user_liked_post,
+        "user_suggestions": user_suggestions
+       
     }
     return render(request, "core/home.html", context)
 
@@ -133,6 +143,21 @@ def settings_view(request):
     }
 
     return render(request, "core/settings.html", context)
+
+
+def follow_suggestions(request):
+    user = request.user
+    if request.method == "POST":
+        follow_suggestion_username = request.POST.get("follow_suggestion_username")
+        user_to_follow = User.objects.get(username=follow_suggestion_username)
+        follow = Followers.objects.create(follower=user, following=user_to_follow)
+        follow.save()
+        return HttpResponseClientRefresh()
+        print(follow_suggestion_username)
+    context = {
+        
+    }
+    return render(request, "core/partials/follow_suggestions.html", context)
 
 
     

@@ -4,22 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <script src="{% static 'js/htmx/htmx.min.js' %}" defer></script>
-    <script src="{% static 'js/htmx/debug.js' %}" defer></script>
-    
-    {% block css %}
-        
+    {% block css %}     
     {% endblock css %}
         
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'style/base.css' %}">
+
     <script src="https://kit.fontawesome.com/0645c31385.js" crossorigin="anonymous"></script>
 
-    
     <title>{% block title %}Social Book{% endblock title %}</title>
         
 </head>
+
 <body>
     
     {% block nav %}
@@ -30,10 +26,15 @@
         
     {% endblock content %}
         
-      </div>
+
+
+    
+    <!-- <script src="{% static 'js/htmx/htmx.min.js' %}" defer></script>
+    <script src="{% static 'js/htmx/debug.js' %}" defer></script> -->
 
     <script src="https://unpkg.com/htmx.org@1.9.2"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    
     <script>
         document.body.addEventListener('htmx:configRequest', function(evt) {
           evt.detail.headers['X-CSRFToken'] = '{{csrf_token}}'; 
