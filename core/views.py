@@ -48,15 +48,12 @@ def home_view(request):
     
     user_following = Followers.objects.filter(follower=user).values_list('following__id', flat=True)
 
-    user_suggestions = User.objects.exclude(pk=user.id).exclude(pk__in=user_following)
+    user_suggestions = Profile.objects.exclude(user=user.id).exclude(user__in=user_following)
     
     try:
         user_suggestions = random.sample(list(user_suggestions), 3)
     except:
         user_suggestions = user_suggestions
-
-
-
 
     context = {
         "posts": posts,
@@ -141,7 +138,6 @@ def settings_view(request):
     context = {
         "form":form
     }
-
     return render(request, "core/settings.html", context)
 
 
@@ -153,11 +149,8 @@ def follow_suggestions(request):
         follow = Followers.objects.create(follower=user, following=user_to_follow)
         follow.save()
         return HttpResponseClientRefresh()
-        print(follow_suggestion_username)
-    context = {
-        
-    }
-    return render(request, "core/partials/follow_suggestions.html", context)
+
+    return render(request, "core/partials/follow_suggestions.html")
 
 
     

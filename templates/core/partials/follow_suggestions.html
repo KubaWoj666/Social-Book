@@ -1,11 +1,15 @@
 {% load static %}
 
-{% for user in  user_suggestions %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'style/home.css' %}">
+{% endblock css %}
+
+{% for profile in  user_suggestions %}
     <ol class="list-group list-group">
         <li class="list-group-item d-flex justify-content-between align-items-start">
-            <img class="suggestion-img" src="{% static 'images/avatar.svg' %}" alt="">
+            <img class="suggestion-img" src="{{profile.image.url}}" alt="">
             <div class="ms-2 me-auto">
-                <div class="fw-bold">@{{user.username}}</div>
+            <div class="fw-bold"> <a href="{% url 'profile' profile.user.username %}">@{{profile.user.username}}</a></div>
                 
             </div>
 
