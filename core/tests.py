@@ -15,10 +15,15 @@ class SocialAppTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = get_user_model().objects.create_user(username="test", email="test@email", password="testpassword")
+        cls.user2 = get_user_model().objects.create_user(username="test2", email="test2@email", password="testpassword")
 
         cls.post = Post.objects.create(user=cls.user, image="image", title="test title", description="test description")
 
         cls.profile = Profile.objects.create(user=cls.user, image="image", bio="test bio", location="test location")
+
+        cls.likes = Likes.objects.create(user=cls.user, post=cls.post, liked=True)
+
+        cls.followers = Followers.objects.create(follower=cls.user, following=cls.user2)
 
     def test_post_model(self):
         post = Post.objects.first()
@@ -38,6 +43,22 @@ class SocialAppTestCase(TestCase):
         self.assertEqual(profile.location, "test location")
         self.assertEqual(profile.image.field.upload_to, "profile_image")
 
+    def test_like_model(self):
+        like = Likes.objects.first()
+        self.assertEqual(Likes.objects.count(), 1)
+        self.assertEqual(like.user, self.user)
+        self.assertEqual(like.post, self.post)
+        self.assertEqual(like.liked, True)
+
+    
+    def test_follower_model(self):
+        follower = Followers.objects.first()
+        self.assertEqual(Followers.objects.count(), 1)
+        self.assertEqual(follower.follower, self.user)
+        self.assertEqual(follower.following, self.user2)
+
+
+
     def test_home_view(self):
         self.client.login(username="test", password="testpassword")
         url = reverse("home")
@@ -45,11 +66,10 @@ class SocialAppTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.post)
         self.assertTemplateUsed(response, "core/home.html")
-        
+        self.assertEqual(response.context["request_user_liked_post"], [self.post.id])
+        self.assertIsInstance(response.context["form"], CreatePostForm)
 
-        form = response.context["form"]
-        self.assertTrue(form is CreatePostForm)
-
+    
         form_data = {
             "user":self.user.pk,
             "image": "new image",
@@ -97,8 +117,11 @@ class SocialAppTestCase(TestCase):
         }
 
         response = self.client.post(url, data=form_data)
-
         self.assertEqual(response.status_code, 302)
+
+        response = self.client.post(url, {"post_id": self.post.id}, HTTP_HX=True)
+        self.assertEqual(response.status_code, 200)
+
        
     
     def test_settings_view(self):
@@ -122,4 +145,12 @@ class SocialAppTestCase(TestCase):
 
         self.assertEqual(response.status_code, 302)
         
-       
+    
+    def test_post_detail_view(self):
+        self.client.login(username="test", password="testpassword")
+        url = reverse("post-detail", args=[self.post.id])
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "core/post_detail.html")
+        self.assertContains(response, self.post)
