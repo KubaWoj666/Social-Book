@@ -1,0 +1,56 @@
+{% extends '_base.html' %}
+{% load static %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'style/post_detail.css' %}">
+{% endblock css %}
+
+
+{% block content %}
+<div class="post-container">
+    <div class="cards">
+        <div class="card-item card mt-5 mb-3">
+            <div>
+                <a class="nav-link" ><button type="button" data-bs-toggle="modal" data-bs-target="#carousel">
+                    <img src="{{post.image.url}}" class="card-img-top" alt="...">
+                  </button></a>
+               
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between ">
+                    <h5 class="card-title  "><a href="{% url 'profile' post.user.username %}">@{{post.user.username}} </a>| {{post.title}}</h5>
+                    <div class="d-flex justify-content-between ">
+                        <button class="btn btn-link "><i class="fa-solid fa-comment fa-xl"></i></button>
+                        <p>{{likes.count}}</p>
+                        <form hx-post="{% url 'home' %}">
+                            <input type="hidden" name="post_id" value="{{post.id}}">
+                            {% if is_post_liked %}
+                                <button type="submit" class="btn btn-link "><i class="fa-solid fa-heart fa-xl " style="color: #f2075a;"></i></button>
+                            {% else %}
+                                <button type="submit" class="btn btn-link "><i class="fa-regular fa-heart fa-xl" style="color: #f2075a;"></i></button>
+                            {% endif %}
+                        </form>
+                    </div>
+                    
+                </div>
+                <p class="card-text mt-3">{{post.description}}</p>
+                <p class="card-text"><small class="text-body-secondary">{{post.created}}</small></p>
+                <!-- <div id="comment">
+                    <form action="">
+                        <label for="">Comment</label><br>
+                        <input type="text">
+                    </form>
+                </div> -->
+                <div id="comment-section" class="border">
+                    <h5>Comments</h5>
+                    <p>@comment-owner: comment </p>
+                </div>
+            </div> 
+        </div> 
+    </div>
+
+</div>
+    
+{% endblock content %}
+    

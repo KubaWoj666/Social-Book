@@ -1,0 +1,8 @@
+.post-container{
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    width: 600px; /* Set the desired width here */
+}

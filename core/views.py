@@ -1,6 +1,6 @@
 import random
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
@@ -153,25 +153,19 @@ def follow_suggestions(request):
     return render(request, "core/partials/follow_suggestions.html")
 
 
+def post_detail(request, pk):
+    user = request.user
+    post = get_object_or_404(Post, id=pk)
+
+    likes = Likes.objects.filter(post=post, liked=True)
     
-# def follow_view(request):
-#     user = request.user
-#     follower_exist = False
-    
-#     if request.method == "POST":
-#         user = user
-#         user_to_follow = request.POST["user_to_follow"]
-#         following = User.objects.get(username=user_to_follow)
-#         if Followers.objects.filter(follower=user, following=following).exists():
-#             followers = Followers.objects.get(follower=user, following=following)
-#             followers.delete()
-#         else:
-#             followers = Followers.objects.create(follower=user, following=following)
-#             followers.save()
-#             follower_exist = True
-    
-#     context={
-#         "follower_exist": follower_exist
-#     }
-    
-#     return redirect("profile", pk=user_to_follow)
+    is_post_liked = Likes.objects.filter(user=user, post=post, liked=True).exists
+
+    context={
+        "post":post,
+        "is_post_liked":is_post_liked,
+        "likes": likes
+    }
+
+    return render(request, "core/post_detail.html", context)
+

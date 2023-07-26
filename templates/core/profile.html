@@ -70,7 +70,9 @@
                 </div>
                 <div class="row">
                     {% for post in posts|slice:"4" %}
-                    <div class="col-lg-6 mb-2 pr-lg-1"><img src="{{post.image.url}}" alt="" class="img-fluid rounded shadow-sm"></div>
+                    <div class="col-lg-6 mb-2 pr-lg-1">
+                        <a href="{{post.get_absolute_url}}"><img src="{{post.image.url}}" alt="" class="img-fluid rounded shadow-sm"></a>
+                    </div>
                     {% endfor %}                        
                 </div>
                 <div class="py-4">
