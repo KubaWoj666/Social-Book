@@ -1,5 +1,6 @@
 {% extends '_base.html' %}
 {% load static %}
+{% load custom_filter %}
 
 
 {% block css %}
@@ -28,7 +29,11 @@ Social Book
                         <div class="d-flex justify-content-between ">
                             <h5 class="card-title  "><a href="{% url 'profile' post.user.username %}">@{{post.user.username}} </a>| {{post.title}}</h5>
                             <div class="d-flex justify-content-between ">
-                                <button class="btn btn-link "><i class="fa-regular fa-comment fa-xl"></i></i></button>
+                                <form hx-post="{% url 'comment' %}">
+                                    <input type="hidden" name="post_id" value="{{post.id}}">
+                                    <input type="text" name="body" placeholder="comment">
+                                    <button type="submit" class="btn btn-link "><i class="fa-regular fa-comment fa-xl"></i></i></button>
+                                </form>
                                 <form hx-post="{% url 'home' %}">
                                     <input type="hidden" name="post_id" value="{{post.id}}">
                                     {% if post.id in request_user_liked_post %}
@@ -50,7 +55,7 @@ Social Book
                         </div> -->
                         <div id="comment-section" class="border">
                             <h5>Comments</h5>
-                            <p>@comment-owner: comment </p>
+                                <p>{{comments|get_comments:post.id}}</p>
                         </div>
                     </div> 
                 </div> 

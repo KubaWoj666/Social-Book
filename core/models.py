@@ -57,3 +57,13 @@ class Followers(models.Model):
 
     def __str__(self) -> str:
         return self.follower.username
+    
+
+class Comment(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) ->str:
+        return self.body

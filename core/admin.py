@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Profile, Post, Likes, Followers
+from .models import Profile, Post, Likes, Followers, Comment
 
 
 class AdminProfile(admin.ModelAdmin):
@@ -22,3 +22,9 @@ class AdminFollowers(admin.ModelAdmin):
     list_display = ["follower", "following"]
 
 admin.site.register(Followers, AdminFollowers)
+
+
+class AdminComment(admin.ModelAdmin):
+    list_display = ["owner", "post", "body"]
+
+admin.site.register(Comment, AdminComment)

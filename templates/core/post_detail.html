@@ -21,8 +21,32 @@
                 <div class="d-flex justify-content-between ">
                     <h5 class="card-title  "><a href="{% url 'profile' post.user.username %}">@{{post.user.username}} </a>| {{post.title}}</h5>
                     <div class="d-flex justify-content-between ">
-                        <button class="btn btn-link "><i class="fa-solid fa-comment fa-xl"></i></button>
-                        <p>{{likes.count}}</p>
+                        <div class=" d-flex justify-content-end text-center">
+                            <form hx-post="{% url 'comment' %}">
+                                <input type="hidden" name="post_id" value="{{post.id}}">
+                                <input type="text" name="body" placeholder="comment">
+                                <button type="submit" class="btn btn-link "><i class="fa-regular fa-comment fa-xl"></i></i></button>
+                            </form>
+                            <ul class="list-inline mb-0">
+                                <form hx-post="{% url 'home' %}">
+                                    <input type="hidden" name="post_id" value="{{post.id}}">
+                                    {% if is_post_liked %}
+                                        <li class="list-inline-item">
+                                            <button type="submit" class="btn btn-link "><small class="text-muted"> <i class="fa-solid fa-heart fa-xl " style="color: #f2075a;"></i></small></button><h6 class="">{{likes.count}}</h6>
+                                        </li>
+                                    {% else %}
+                                        <li class="list-inline-item">
+                                            <button type="submit" class="btn btn-link" ><small class="text-muted"> <i class="fa-regular fa-heart fa-xl" style="color: #f2075a;"></i></small></button><h6 class="font-weight-bold mb-0 d-block">{{likes.count}}</h6>
+                                        </li>
+                                    {% endif %}
+                                </form>
+                                        
+                            </ul>
+                        </div>
+                        <!-- <button class="btn btn-link "><i class="fa-solid fa-comment fa-xl"></i></button>
+                        <div>
+                            {{likes.count}}
+                        </div>
                         <form hx-post="{% url 'home' %}">
                             <input type="hidden" name="post_id" value="{{post.id}}">
                             {% if is_post_liked %}
@@ -30,7 +54,7 @@
                             {% else %}
                                 <button type="submit" class="btn btn-link "><i class="fa-regular fa-heart fa-xl" style="color: #f2075a;"></i></button>
                             {% endif %}
-                        </form>
+                        </form> -->
                     </div>
                     
                 </div>
@@ -44,7 +68,12 @@
                 </div> -->
                 <div id="comment-section" class="border">
                     <h5>Comments</h5>
-                    <p>@comment-owner: comment </p>
+                    
+                    {% for comment in comments %}
+                        <p class="rounded-circle">@{{comment.owner}}: {{comment.body}} </p>
+                    {% endfor %}
+                        
+                    
                 </div>
             </div> 
         </div> 

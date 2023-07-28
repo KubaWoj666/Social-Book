@@ -4,12 +4,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
-
-from .models import Post, Profile, Followers, Likes
+from .models import Post, Profile, Followers, Likes, Comment
 from .forms import CreatePostForm, CreateProfile
 from django.contrib.auth.models import User
 
-from allauth.account.views import SignupView
 from django_htmx.http import HttpResponseClientRefresh
 
 # Create your views here.
@@ -45,7 +43,6 @@ def home_view(request):
     user = request.user
     request_user_liked_post = [post.id for post in posts if Likes.objects.filter(post=post, user=user, liked=True).exists()] 
             
-    
     user_following = Followers.objects.filter(follower=user).values_list('following__id', flat=True)
 
     user_suggestions = Profile.objects.exclude(user=user.id).exclude(user__in=user_following)
@@ -55,12 +52,19 @@ def home_view(request):
     except:
         user_suggestions = user_suggestions
 
+    comments = {}
+    for post in posts:
+        comment = Comment.objects.filter(post=post)
+        comments[post.id] = comment
+        print(comments)
+
     context = {
         "posts": posts,
         "form": form,
         "page": page,
         "request_user_liked_post": request_user_liked_post,
-        "user_suggestions": user_suggestions
+        "user_suggestions": user_suggestions,
+        "comments": comments
        
     }
     return render(request, "core/home.html", context)
@@ -145,6 +149,7 @@ def follow_suggestions(request):
     user = request.user
     if request.method == "POST":
         follow_suggestion_username = request.POST.get("follow_suggestion_username")
+        print(follow_suggestion_username)
         user_to_follow = User.objects.get(username=follow_suggestion_username)
         follow = Followers.objects.create(follower=user, following=user_to_follow)
         follow.save()
@@ -161,11 +166,36 @@ def post_detail(request, pk):
     
     is_post_liked = Likes.objects.filter(user=user, post=post, liked=True).exists
 
+    comments = post.comment_set.filter(post=post)
+
     context={
         "post":post,
         "is_post_liked":is_post_liked,
-        "likes": likes
+        "likes": likes,
+        "comments": comments
     }
 
     return render(request, "core/post_detail.html", context)
 
+
+def comment(request):
+    user = request.user
+
+    if request.method == "POST":
+        post_id = request.POST.get("post_id")
+        post = Post.objects.get(id=post_id)
+        body = request.POST.get("body")
+        comment = Comment.objects.create(owner=user, post=post, body=body)
+        comment.save()
+        print(post_id)
+        print(body)
+        return HttpResponseClientRefresh()
+
+    
+    comment = Comment.objects.all()
+
+    context = {
+        "comment": comment
+    }
+
+    return render(request, "core/partials/comment.html", context)
