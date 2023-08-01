@@ -53,9 +53,13 @@ Social Book
                                 <input type="text">
                             </form>
                         </div> -->
-                        <div id="comment-section" class="border">
+                        <div id="comment-section" class="border  ">
                             <h5>Comments</h5>
-                                <p>{{comments|get_comments:post.id}}</p>
+                            
+                            {% for comment in post_comments|get_comments:post.id  %}
+                                <p id="comments" class="border border-info rounded"><span><b>@{{comment.owner}}</b></span>: {{comment.body}}</p>
+                            {% endfor %}
+                                
                         </div>
                     </div> 
                 </div> 

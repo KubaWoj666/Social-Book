@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.db.models import Prefetch
 
 from .models import Post, Profile, Followers, Likes, Comment
 from .forms import CreatePostForm, CreateProfile
@@ -52,11 +53,13 @@ def home_view(request):
     except:
         user_suggestions = user_suggestions
 
-    comments = {}
+    post_comments = {}
     for post in posts:
-        comment = Comment.objects.filter(post=post)
-        comments[post.id] = comment
-        print(comments)
+        comments = Comment.objects.filter(post=post)
+        post_comments[post.id] = comments
+    
+    print(post_comments)
+    
 
     context = {
         "posts": posts,
@@ -64,7 +67,8 @@ def home_view(request):
         "page": page,
         "request_user_liked_post": request_user_liked_post,
         "user_suggestions": user_suggestions,
-        "comments": comments
+        "post_comments": post_comments
+       
        
     }
     return render(request, "core/home.html", context)
@@ -144,7 +148,7 @@ def settings_view(request):
     }
     return render(request, "core/settings.html", context)
 
-
+@login_required(login_url="account_login")
 def follow_suggestions(request):
     user = request.user
     if request.method == "POST":
@@ -157,7 +161,7 @@ def follow_suggestions(request):
 
     return render(request, "core/partials/follow_suggestions.html")
 
-
+@login_required(login_url="account_login")
 def post_detail(request, pk):
     user = request.user
     post = get_object_or_404(Post, id=pk)
@@ -177,7 +181,7 @@ def post_detail(request, pk):
 
     return render(request, "core/post_detail.html", context)
 
-
+@login_required(login_url="account_login")
 def comment(request):
     user = request.user
 
