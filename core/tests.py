@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.utils import timezone
 
-from .models import Profile, Post, Likes, Followers
+from .models import Profile, Post, Likes, Followers, Comment
 from .forms import CreatePostForm, CreateProfile
 
 import datetime
@@ -20,6 +20,8 @@ class SocialAppTestCase(TestCase):
         cls.post = Post.objects.create(user=cls.user, image="image", title="test title", description="test description")
 
         cls.profile = Profile.objects.create(user=cls.user, image="image", bio="test bio", location="test location")
+
+        cls.comment = Comment.objects.create(owner=cls.user, post=cls.post, body="test comment")
 
         cls.likes = Likes.objects.create(user=cls.user, post=cls.post, liked=True)
 
@@ -56,6 +58,14 @@ class SocialAppTestCase(TestCase):
         self.assertEqual(Followers.objects.count(), 1)
         self.assertEqual(follower.follower, self.user)
         self.assertEqual(follower.following, self.user2)
+
+    
+    def test_comment_model(self):
+        comment = Comment.objects.first()
+        self.assertEqual(Comment.objects.count(), 1)
+        self.assertEqual(comment.owner, self.user)
+        self.assertEqual(comment.post, self.post)
+        self.assertEqual(comment.body, "test comment")
 
 
 

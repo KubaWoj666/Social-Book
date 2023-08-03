@@ -33,6 +33,7 @@ a{
     color: black;
 }
 
-/* #comments{
-   width: 300px;
-} */
+#comments{
+    align-items: center;
+ 
+}
