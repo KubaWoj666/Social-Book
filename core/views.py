@@ -17,6 +17,7 @@ from django_htmx.http import HttpResponseClientRefresh
 def home_view(request):
     page = "home"
     posts = Post.objects.all().order_by("-created")
+    profile = Profile.objects.get(user=request.user)
     
     if request.method == "POST":
         form = CreatePostForm(request.POST, request.FILES)
@@ -63,6 +64,7 @@ def home_view(request):
         "posts": posts,
         "form": form,
         "page": page,
+        "profile": profile,
         "request_user_liked_post": request_user_liked_post,
         "user_suggestions": user_suggestions,
         "post_comments": post_comments 
@@ -161,6 +163,7 @@ def follow_suggestions(request):
 def post_detail(request, pk):
     user = request.user
     post = get_object_or_404(Post, id=pk)
+    profile = get_object_or_404(Profile, user=user)
 
     likes = Likes.objects.filter(post=post, liked=True)
     
@@ -172,10 +175,21 @@ def post_detail(request, pk):
         "post":post,
         "is_post_liked":is_post_liked,
         "likes": likes,
-        "comments": comments
+        "comments": comments,
+        "profile":profile
     }
 
     return render(request, "core/post_detail.html", context)
+
+@login_required(login_url="account_login")
+def delete_post(request, pk):
+    user = request.user
+    post = get_object_or_404(Post, id=pk, user=user)
+    post.delete()
+    
+    return HttpResponseClientRefresh()
+
+    
 
 @login_required(login_url="account_login")
 def comment(request):
@@ -185,6 +199,7 @@ def comment(request):
 
     if request.method == "POST":
         post_id = request.POST.get("post_id")
+        print(post_id)
         post = Post.objects.get(id=post_id)
         body = request.POST.get("body")
         comment = Comment.objects.create(owner=user, post=post, body=body)
@@ -195,7 +210,7 @@ def comment(request):
     
     return render(request, "core/home.html")
    
-
+@login_required(login_url="account_login")
 def delete_comment(request, pk):
     comment = get_object_or_404(Comment, id=pk)
     comment.delete()

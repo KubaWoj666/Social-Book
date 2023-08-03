@@ -6,3 +6,35 @@
 .card {
     width: 600px; /* Set the desired width here */
 }
+
+#profile_img{
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+
+.comment_input{
+    background-color:rgb(215, 211, 211);
+    border-radius: 20px;
+    border-color: black;
+    width: 480px;
+}
+
+.comment{
+    background-color:rgb(215, 211, 211);
+    border-color: black;
+    border-radius: 20px;
+    margin-top: 5px;
+}
+
+samp{
+    margin-left: 10px;
+    font-weight: bold;
+    width: 480px;
+}
+
+p{
+    margin-left: 10px;
+    display: flex;
+    justify-content: space-between;
+}
