@@ -29,15 +29,12 @@
                             <form action="" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="user" value="{{request.user}}">
-                                <input type="hidden" name="user_to_follow" value="{{profile.user.username}}">
-                                
+                                <input type="hidden" name="user_to_follow" value="{{profile.user.username}}">  
                                 {% if is_following %}
                                     <button type="submit" class="btn btn-dark btn-sm btn-block">Unfollow</button>
                                 {% else %}
                                     <button type="submit" class="btn btn-dark btn-sm btn-block">Follow</button>
-                                {% endif %}
-                                    
-                                
+                                {% endif %}                              
                             </form>                            
                         {% endif %}
                     </div>
@@ -86,8 +83,7 @@
                     </div>
                 </div>
             </div>
-        </div><!-- End profile widget -->
-
+        </div>
     </div>
 </div>
 

@@ -1,20 +1,20 @@
 {% extends '_base.html' %}
 {% load static %}
 
-
 {% block css %}
     <link rel="stylesheet" href="{% static 'style/post_detail.css' %}">
 {% endblock css %}
-
 
 {% block content %}
 <div class="post-container">
     <div class="cards">
         <div class="card-item card mt-5 mb-3">
             <div>
-                <a class="nav-link" ><button type="button" data-bs-toggle="modal" data-bs-target="#carousel">
-                    <img src="{{post.image.url}}" class="card-img-top" alt="...">
-                  </button></a>
+                <a class="nav-link">
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#carousel">
+                        <img src="{{post.image.url}}" class="card-img-top" alt="..."> 
+                    </button>
+                </a>
                
             </div>
             <div class="card-body">
@@ -22,11 +22,9 @@
                     <h5 class="card-title  "><a href="{% url 'profile' post.user.username %}">@{{post.user.username}} </a>| {{post.title}}</h5>
                     <div class="d-flex justify-content-between ">
                         <div class=" d-flex justify-content-end text-center">
-                            <form hx-post="{% url 'comment' %}">
-                                <input type="hidden" name="post_id" value="{{post.id}}">
-                                <input type="text" name="body" placeholder="comment">
-                                <button type="submit" class="btn btn-link "><i class="fa-regular fa-comment fa-xl"></i></i></button>
-                            </form>
+                            <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#commentModal"><i class="fa-regular fa-comment fa-xl"></i></button>
+                            {% include 'core/partials/comment_modal.html' %}
+
                             <ul class="list-inline mb-0">
                                 <form hx-post="{% url 'home' %}">
                                     <input type="hidden" name="post_id" value="{{post.id}}">
@@ -39,46 +37,36 @@
                                             <button type="submit" class="btn btn-link" ><small class="text-muted"> <i class="fa-regular fa-heart fa-xl" style="color: #f2075a;"></i></small></button><h6 class="font-weight-bold mb-0 d-block">{{likes.count}}</h6>
                                         </li>
                                     {% endif %}
-                                </form>
-                                        
+                                </form>            
                             </ul>
                         </div>
-                        <!-- <button class="btn btn-link "><i class="fa-solid fa-comment fa-xl"></i></button>
-                        <div>
-                            {{likes.count}}
-                        </div>
-                        <form hx-post="{% url 'home' %}">
-                            <input type="hidden" name="post_id" value="{{post.id}}">
-                            {% if is_post_liked %}
-                                <button type="submit" class="btn btn-link "><i class="fa-solid fa-heart fa-xl " style="color: #f2075a;"></i></button>
-                            {% else %}
-                                <button type="submit" class="btn btn-link "><i class="fa-regular fa-heart fa-xl" style="color: #f2075a;"></i></button>
-                            {% endif %}
-                        </form> -->
-                    </div>
-                    
+                    </div>   
                 </div>
+
                 <p class="card-text mt-3">{{post.description}}</p>
                 <p class="card-text"><small class="text-body-secondary">{{post.created}}</small></p>
-                <!-- <div id="comment">
-                    <form action="">
-                        <label for="">Comment</label><br>
-                        <input type="text">
-                    </form>
-                </div> -->
+
                 <div id="comment-section" class="border">
-                    <h5>Comments</h5>
-                    
-                    {% for comment in comments %}
-                        <p class="rounded-circle">@{{comment.owner}}: {{comment.body}} </p>
+                    <h5>Comments</h5> 
+                    {% for comment in comments|slice:"10" %}
+                        {% if comment.owner == request.user  %}
+                            <div class="d-flex justify-content-between  border border-info rounded  ">
+                                <p id="comments" class=""><span><b>@{{comment.owner}}</b></span>: {{comment.body}} </p>
+                                <button hx-delete="{% url 'delete-comment' comment.id %}" 
+                                        hx-confirm="Are you sure you want delete comment"
+                                        class="btn btn-link"><i class="fa-solid fa-trash" style="color: #f2075a;"></i>
+                                </button>
+                            </div>
+                        {% else %}
+                            <div class="d-flex justify-content-between  border border-info rounded ">
+                                <p id="comments" class=""><span><b>@{{comment.owner}}</b></span>: {{comment.body}} </p>         
+                            </div>
+                        {% endif %}             
                     {% endfor %}
-                        
-                    
                 </div>
             </div> 
         </div> 
     </div>
-
 </div>
     
 {% endblock content %}

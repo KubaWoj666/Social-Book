@@ -20,20 +20,19 @@ Social Book
             <div class="cards">
                 <div class="card-item card mt-5 mb-3">
                     <div>
-                        <a class="nav-link" ><button type="button" data-bs-toggle="modal" data-bs-target="#carousel">
-                            <img src="{{post.image.url}}" class="card-img-top" alt="...">
-                          </button></a>
+                        <a class="nav-link" >
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#carousel">
+                                <img src="{{post.image.url}}" class="card-img-top" alt="...">
+                            </button>
+                        </a>
                        
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between ">
                             <h5 class="card-title  "><a href="{% url 'profile' post.user.username %}">@{{post.user.username}} </a>| <a href="{{ post.get_absolute_url }}">{{post.title}}</a></h5>
                             <div class="d-flex justify-content-between ">
-                                <form hx-post="{% url 'comment' %}">
-                                    <input type="hidden" name="post_id" value="{{post.id}}">
-                                    <input type="text" name="body" placeholder="comment">
-                                    <button type="submit" class="btn btn-link "><i class="fa-regular fa-comment fa-xl"></i></i></button>
-                                </form>
+                                <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#commentModal"><i class="fa-regular fa-comment fa-xl"></i></button>
+
                                 <form hx-post="{% url 'home' %}">
                                     <input type="hidden" name="post_id" value="{{post.id}}">
                                     {% if post.id in request_user_liked_post %}
@@ -45,40 +44,35 @@ Social Book
                             </div>
                             
                         </div>
+
                         <p class="card-text mt-3">{{post.description}}</p>
                         <p class="card-text"><small class="text-body-secondary">{{post.created}}</small></p>
-                        <!-- <div id="comment">
-                            <form action="">
-                                <label for="">Comment</label><br>
-                                <input type="text">
-                            </form>
-                        </div> -->
+    
                         <div id="comment-section" class="border  ">
                             <h5>Comments</h5>
-                            
-                            {% for comment in post_comments|get_comments:post.id  %}
-                                
+                            {% include 'core/partials/comment_modal.html' %}
+                            {% for comment in post_comments|get_comments:post.id|slice:"5" %}                   
                                 {% if comment.owner == request.user  %}
                                     <div class="d-flex justify-content-between  border border-info rounded  ">
                                         <p id="comments" class=""><span><b>@{{comment.owner}}</b></span>: {{comment.body}} </p>
-                                        <i class="fa-solid fa-trash" style="color: #f2075a;"></i>
+                                        <button hx-delete="{% url 'delete-comment' comment.id %}" 
+                                                hx-confirm="Are you sure you want delete comment"
+                                                class="btn btn-link"><i class="fa-solid fa-trash" style="color: #f2075a;"></i>
+                                        </button>
                                     </div>
                                 {% else %}
                                     <div class="d-flex justify-content-between  border border-info rounded ">
-                                        <p id="comments" class=""><span><b>@{{comment.owner}}</b></span>: {{comment.body}} </p>
-                                        
+                                        <p id="comments" class=""><span><b>@{{comment.owner}}</b></span>: {{comment.body}} </p>         
                                     </div>
-                                {% endif %}
-                                    
+                                {% endif %}                              
                             {% endfor %}
-                                
                         </div>
                     </div> 
                 </div> 
             </div>
         {% endfor %}
     </div>
-    
+
     <div class="suggestions mt-5">
         
         {% include 'core/partials/follow_suggestions.html' %}
@@ -89,8 +83,9 @@ Social Book
 
 {% include 'core/partials/create_post.html' %}
 
+
 {% include 'core/partials/carousel.html' %}
 
 
 {% endblock content %}
-    parccials
+    

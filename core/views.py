@@ -58,18 +58,14 @@ def home_view(request):
         comments = Comment.objects.filter(post=post)
         post_comments[post.id] = comments
     
-    print(post_comments)
-    
-
+   
     context = {
         "posts": posts,
         "form": form,
         "page": page,
         "request_user_liked_post": request_user_liked_post,
         "user_suggestions": user_suggestions,
-        "post_comments": post_comments
-       
-       
+        "post_comments": post_comments 
     }
     return render(request, "core/home.html", context)
 
@@ -184,6 +180,8 @@ def post_detail(request, pk):
 @login_required(login_url="account_login")
 def comment(request):
     user = request.user
+    next_url = request.GET.get("next")
+    print(next_url)
 
     if request.method == "POST":
         post_id = request.POST.get("post_id")
@@ -191,15 +189,14 @@ def comment(request):
         body = request.POST.get("body")
         comment = Comment.objects.create(owner=user, post=post, body=body)
         comment.save()
-        print(post_id)
-        print(body)
-        return HttpResponseClientRefresh()
-
+        if next_url:
+            return redirect(next_url)
+        
     
-    comment = Comment.objects.all()
+    return render(request, "core/home.html")
+   
 
-    context = {
-        "comment": comment
-    }
-
-    return render(request, "core/partials/comment.html", context)
+def delete_comment(request, pk):
+    comment = get_object_or_404(Comment, id=pk)
+    comment.delete()
+    return HttpResponseClientRefresh()

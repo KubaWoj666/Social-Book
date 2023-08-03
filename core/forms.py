@@ -12,3 +12,5 @@ class CreateProfile(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ["image", "bio", "location" ]
+
+
