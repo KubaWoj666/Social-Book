@@ -12,7 +12,8 @@ urlpatterns = [
 
     path("follow-suggestions", views.follow_suggestions, name="follow-suggestions"),
     path("post/<uuid:pk>", views.post_detail, name="post-detail"),
-    path("delete-post/<uuid:pk>", views.delete_post, name="delete-post")
+    path("delete-post/<uuid:pk>", views.delete_post, name="delete-post"),
+    path("update-post/<uuid:pk>", views.update_post, name="update-post")
     # path("follow", views.follow_view, name="follow"),
 
 

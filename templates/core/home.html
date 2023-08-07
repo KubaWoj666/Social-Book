@@ -24,15 +24,20 @@ Social Book
                         {% if request.user == post.user %}
                         <button class="btn btn-link dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis"></i></button>
                         <ul class="dropdown-menu dropdown-menu-dark">
-                            <li><button hx-delete="{% url 'delete-post' post.id %}" 
+                            <li>
+                                <button hx-delete="{% url 'delete-post' post.id %}" 
                                         hx-confirm="Are you sure you want to delete this post?"
-                                        class="dropdown-item" >Delete post</button></li>
-                            <li><a class="dropdown-item" href="#">Update post</a></li>
+                                        class="dropdown-item" >Delete post
+                                </button>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'update-post' post.id %}">Update Post</a>
+                            </li>
                         </ul>
                         {% endif %}
                         <a class="nav-link" >
                             <button type="button" data-bs-toggle="modal" data-bs-target="#carousel">
-                                <img src="{{post.image.url}}" class="card-img-top" alt="...">
+                                <img id="post_ing" src="{{post.image.url}}" class="card-img-top " alt="...">
                             </button>
                         </a> 
                     </div>
@@ -62,7 +67,7 @@ Social Book
                                 <form action="{% url 'comment' %}?next={{request.path}}" method="POST">
                                     {% csrf_token %}
                                     <input type="hidden" name="post_id" value="{{post.id}}">
-                                    <input class="comment_input" type="text" name="body" placeholder="comment here" required>
+                                    <input class="comment_input" type="text" name="body" placeholder="write your comment..." required>
                                     <button type="submit" class="btn btn-link "><i class="fa-regular fa-paper-plane"></i></button>
                                 </form>
                             </div>

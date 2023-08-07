@@ -1,0 +1,70 @@
+{% extends '_base.html' %}
+{% load crispy_forms_tags %}
+{% load static  %}
+{% load widget_tweaks %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'style/update_post.css' %}">
+{% endblock css %}
+    
+
+{% block content %}
+
+<div class="container">
+    <div class="card" style="width: 35rem;">
+        <div id="image_box">
+        <img  src="{{post.image.url}}" class="card-img-top " alt="...">
+        </div>
+        <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        
+        <form  method="POST" enctype="multipart/form-data" >
+            {% csrf_token %}
+            <div  id="image" class="forms-control {% if field.errors %} errors {% endif %} ">
+                <label>{{ form.image.label_tag }}</label>
+                {{ form.image.errors }}
+                {% render_field form.image class="form-control"  name="image" id="id_image"%}
+            </div>
+            <div class="forms-control {% if field.errors %} errors {% endif %} ">
+                <label>{{ form.title.label_tag }}</label>
+                {{ form.title.errors }}
+                {% render_field form.title class="form-control"  name="title" id="id_title"%}
+            </div>
+            
+            <div  class="forms-control {% if field.errors %} errors {% endif %} ">
+                <label>{{ form.description.label_tag }}</label>
+                {{ form.description.errors }}
+                {% render_field form.description class="form-control"  name="description" id="id_description"%}
+            </div>
+            
+            
+            <button type="submit" class="btn btn-success mt-2">Update Post</button>
+          </form>
+        </div>
+    </div>
+</div>
+<script>
+
+    
+    
+    const input = document.getElementById("id_image")
+    const imageBox = document.getElementById("image_box")
+    const csrf = document.getElementsByName("csrfmiddelwaretoken")
+
+    input.addEventListener("change", ()=>{
+        console.log("chaced")
+
+        const img_data = input.files[0]
+        const url = URL.createObjectURL(img_data)
+        imageBox.innerHTML = `<img src="${url}" id="image" width=558px>`
+
+    })
+</script>
+    
+{% endblock content %}
+
+    
+    
+    
+    

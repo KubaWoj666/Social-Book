@@ -62,7 +62,7 @@
                         <form action="{% url 'comment' %}?next={{request.path}}" method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="post_id" value="{{post.id}}">
-                            <input class="comment_input" type="text" name="body" placeholder="comment here" required>
+                            <input class="comment_input" type="text" name="body" placeholder="write your comment..." required>
                             <button type="submit" class="btn btn-link "><i class="fa-regular fa-paper-plane"></i></button>
                         </form>
                     </div>

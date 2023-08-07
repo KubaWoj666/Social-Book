@@ -181,6 +181,27 @@ def post_detail(request, pk):
 
     return render(request, "core/post_detail.html", context)
 
+
+@login_required(login_url="account_login")
+def update_post(request, pk):
+    post = Post.objects.get(id=pk)
+
+    if request.method == "POST":
+        form = CreatePostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect("home")
+    
+    else:
+        form = CreatePostForm(instance=post)
+    
+    context = {
+        "post": post,
+        "form": form
+    }
+
+    return render(request, "core/update-post.html", context )
+
 @login_required(login_url="account_login")
 def delete_post(request, pk):
     user = request.user
