@@ -14,7 +14,7 @@
                     <button class="btn btn-link dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis"></i></button>
                     <ul class="dropdown-menu dropdown-menu-dark">
                         <li>
-                            <button hx-delete="{% url 'delete-post' post.id %}?next={{request.path}}" 
+                            <button hx-delete="{% url 'delete-post' post.id %}?next={% url 'profile' request.user %}" 
                                     hx-confirm="Are you sure you want to delete this post?"
                                     class="dropdown-item" >Delete post</button>
                         </li>

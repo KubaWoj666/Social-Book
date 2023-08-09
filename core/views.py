@@ -9,7 +9,7 @@ from .models import Post, Profile, Followers, Likes, Comment
 from .forms import CreatePostForm, CreateProfile
 from django.contrib.auth.models import User
 
-from django_htmx.http import HttpResponseClientRefresh
+from django_htmx.http import HttpResponseClientRefresh, HttpResponseClientRedirect
 
 # Create your views here.
 
@@ -31,16 +31,19 @@ def home_view(request):
     
     if request.htmx:
         user = request.user
-        post = Post.objects.get(id=request.POST.get("post_id"))
-        
-        if Likes.objects.filter(post=post, user=user, liked=True).exists():
-            unlike = Likes.objects.get(user=user, post=post, liked=True)
-            unlike.delete()
-            return HttpResponseClientRefresh()
-        else:
-            like = Likes.objects.create(user=user, post=post, liked=True)
-            like.save()
-            return HttpResponseClientRefresh()
+        try:
+            post = Post.objects.get(id=request.POST.get("post_id"))
+            
+            if Likes.objects.filter(post=post, user=user, liked=True).exists():
+                unlike = Likes.objects.get(user=user, post=post, liked=True)
+                unlike.delete()
+                return HttpResponseClientRefresh()
+            else:
+                like = Likes.objects.create(user=user, post=post, liked=True)
+                like.save()
+                return HttpResponseClientRefresh()
+        except:
+            return redirect("home")
     
     user = request.user
     request_user_liked_post = [post.id for post in posts if Likes.objects.filter(post=post, user=user, liked=True).exists()] 
@@ -206,9 +209,16 @@ def update_post(request, pk):
 def delete_post(request, pk):
     user = request.user
     post = get_object_or_404(Post, id=pk, user=user)
+    next_url = request.GET.get("next")
     post.delete()
+    print("next", next_url)
+    if next_url:
+        return HttpResponseClientRedirect(next_url)
     
+
     return HttpResponseClientRefresh()
+    
+   
 
     
 
@@ -216,11 +226,10 @@ def delete_post(request, pk):
 def comment(request):
     user = request.user
     next_url = request.GET.get("next")
-    print(next_url)
+   
 
     if request.method == "POST":
         post_id = request.POST.get("post_id")
-        print(post_id)
         post = Post.objects.get(id=post_id)
         body = request.POST.get("body")
         comment = Comment.objects.create(owner=user, post=post, body=body)
