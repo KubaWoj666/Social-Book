@@ -164,3 +164,11 @@ class SocialAppTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "core/post_detail.html")
         self.assertContains(response, self.post)
+    
+
+    # def test_delete_post_view(self):
+    #     self.client.login(username="test", password="testpassword")
+    #     response = self.client.delete(reverse("delete-post"), args=[self.post.id])
+    #     self.assertEqual(response.status_code, 302)
+
+     

@@ -145,7 +145,8 @@ def settings_view(request):
         form = CreateProfile(instance=profile)
     
     context = {
-        "form":form
+        "form":form,
+        "profile": profile
     }
     return render(request, "core/settings.html", context)
 
@@ -210,16 +211,13 @@ def delete_post(request, pk):
     user = request.user
     post = get_object_or_404(Post, id=pk, user=user)
     next_url = request.GET.get("next")
+
     post.delete()
-    print("next", next_url)
+    
     if next_url:
         return HttpResponseClientRedirect(next_url)
     
-
     return HttpResponseClientRefresh()
-    
-   
-
     
 
 @login_required(login_url="account_login")
@@ -227,7 +225,6 @@ def comment(request):
     user = request.user
     next_url = request.GET.get("next")
    
-
     if request.method == "POST":
         post_id = request.POST.get("post_id")
         post = Post.objects.get(id=post_id)
@@ -237,7 +234,6 @@ def comment(request):
         if next_url:
             return redirect(next_url)
         
-    
     return render(request, "core/home.html")
    
 @login_required(login_url="account_login")
