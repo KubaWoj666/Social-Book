@@ -16,9 +16,9 @@ from django_htmx.http import HttpResponseClientRefresh, HttpResponseClientRedire
 @login_required(login_url="account_login")
 def home_view(request):
     page = "home"
-    posts = Post.objects.all().order_by("-created")
+    posts = Post.objects.all()
     profile = Profile.objects.get(user=request.user)
-    
+        
     if request.method == "POST":
         form = CreatePostForm(request.POST, request.FILES)
         if form.is_valid():
@@ -49,7 +49,7 @@ def home_view(request):
     request_user_liked_post = [post.id for post in posts if Likes.objects.filter(post=post, user=user, liked=True).exists()] 
             
     user_following = Followers.objects.filter(follower=user).values_list('following__id', flat=True)
-
+  
     user_suggestions = Profile.objects.exclude(user=user.id).exclude(user__in=user_following)
     
     try:
@@ -62,6 +62,8 @@ def home_view(request):
         comments = Comment.objects.filter(post=post)
         post_comments[post.id] = comments
     
+    #shows posts of people followed by request user
+    posts = posts.filter(user_id__in=user_following).order_by("-created")
    
     context = {
         "posts": posts,
@@ -155,7 +157,6 @@ def follow_suggestions(request):
     user = request.user
     if request.method == "POST":
         follow_suggestion_username = request.POST.get("follow_suggestion_username")
-        print(follow_suggestion_username)
         user_to_follow = User.objects.get(username=follow_suggestion_username)
         follow = Followers.objects.create(follower=user, following=user_to_follow)
         follow.save()
@@ -233,7 +234,7 @@ def comment(request):
         comment.save()
         if next_url:
             return redirect(next_url)
-        
+    
     return render(request, "core/home.html")
    
 @login_required(login_url="account_login")

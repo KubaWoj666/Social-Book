@@ -44,7 +44,7 @@
                 {% if user.is_authenticated %}
                 <span class="navbar-text">Logged in as  
                 <a  href="{% url 'profile' user.username %}" role="button" >
-                    {{user.username}}</a> | </span>
+                    {{user.username}}</a> </span>
                 <li class="nav-item">
                 <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
                 </li>
