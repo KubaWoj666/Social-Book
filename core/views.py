@@ -3,7 +3,6 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.db.models import Prefetch
 
 from .models import Post, Profile, Followers, Likes, Comment
 from .forms import CreatePostForm, CreateProfile
@@ -11,7 +10,7 @@ from django.contrib.auth.models import User
 
 from django_htmx.http import HttpResponseClientRefresh, HttpResponseClientRedirect
 
-# Create your views here.
+
 
 @login_required(login_url="account_login")
 def home_view(request):
@@ -195,7 +194,7 @@ def update_post(request, pk):
         form = CreatePostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             form.save()
-            return redirect("home")
+            return redirect("post-detail", post.id)
     
     else:
         form = CreatePostForm(instance=post)
@@ -226,16 +225,18 @@ def comment(request):
     user = request.user
     next_url = request.GET.get("next")
    
-    if request.method == "POST":
+    if request.htmx:
         post_id = request.POST.get("post_id")
         post = Post.objects.get(id=post_id)
         body = request.POST.get("body")
         comment = Comment.objects.create(owner=user, post=post, body=body)
         comment.save()
-        if next_url:
-            return redirect(next_url)
+    #     if next_url:
+    #         return redirect(next_url)
     
-    return render(request, "core/home.html")
+    # return render(request, "core/home.html")
+    return HttpResponseClientRefresh()
+    
    
 @login_required(login_url="account_login")
 def delete_comment(request, pk):

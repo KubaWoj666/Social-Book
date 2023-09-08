@@ -19,7 +19,7 @@
                                     class="dropdown-item" >Delete post</button>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#">Update post</a>
+                            <a class="dropdown-item" href="{% url 'update-post' post.id %}">Update post</a>
                         </li>
                     </ul>
                 {% endif %}
@@ -59,7 +59,7 @@
                 <div id="comment-section "> 
                     <div class="d-flex justify-content-between">
                         <img id="profile_img" src="{{profile.image.url}}" alt="">
-                        <form action="{% url 'comment' %}?next={{request.path}}" method="POST">
+                        <form hx-post="{% url 'comment' %}" method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="post_id" value="{{post.id}}">
                             <input class="comment_input" type="text" name="body" placeholder="write your comment..." required>

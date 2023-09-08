@@ -64,7 +64,7 @@ Social Book
                         <div id="comment-section "> 
                             <div class="d-flex justify-content-between">
                                 <img id="profile_img" src="{{profile.image.url}}" alt="">
-                                <form action="{% url 'comment' %}?next={{request.path}}" method="POST">
+                                <form hx-post="{% url 'comment' %}" >
                                     {% csrf_token %}
                                     <input id="post_id" type="hidden" name="post_id" value="{{post.id}}">
                                     <input id="comment_input" class="comment_input" type="text" name="body" placeholder="write your comment..." required>
@@ -74,7 +74,7 @@ Social Book
                             {% for comment in post_comments|get_comments:post.id|slice:"5" %}                   
                                 {% if comment.owner == request.user  %}
                                    <div id="comment_box" class="comment" >
-                                        <samp >@{{comment.owner}}</samp>
+                                        <a href="{% url 'profile' comment.owner %}"><samp>@{{comment.owner}}</samp></a>
                                         <p>{{comment.body}}
                                                 <button hx-delete="{% url 'delete-comment' comment.id %}" 
                                                 hx-confirm="Are you sure you want delete comment"
@@ -84,7 +84,7 @@ Social Book
                                     </div>
                                 {% else %}
                                     <div class="comment" >
-                                        <samp >@{{comment.owner}}</samp>
+                                        <a href="{% url 'profile' comment.owner %}"><samp>@{{comment.owner}}</samp></a>
                                         <p>{{comment.body}}</p>
                                     </div>
                                 {% endif %}                              
@@ -111,20 +111,6 @@ Social Book
 
 
 
-
-
-
-<!-- <script>
-    const comment_input = document.getElementById("comment_input")
-    const button = document.getElementById("comment_button")
-    const comment_box = document.getElementById("comment_box")
-    
-    button.addEventListener("click", () => {
-        const commentValue = comment_input.value;
-        console.log(commentValue);
-        comment_box.innerHTML = `<p>${commentValue}</p>`;
-    });
-</script> -->
-
 {% endblock content %}
     
+
