@@ -1,0 +1,22 @@
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'style/home.css' %}">
+{% endblock css %}
+
+{% for profile in chat_suggestions %}
+    <ol class="list-group list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <img class="suggestion-img" src="{{profile.image.url}}" alt="">
+            <div class="ms-2 me-auto">
+                <div class="fw-bold"> 
+                    <a href="{% url 'main_chat' profile.user.username %}">@{{profile.user.username}}</a>
+                </div>     
+            </div>
+            <!-- <form hx-post="{% url 'follow-suggestions' %}">
+                <input type="hidden" name="follow_suggestion_username" value="{{user.user.username}}">
+                <button  class="badge bg-primary rounded-pill"> Follow</button>
+            </form> -->
+        </li>
+    </ol>
+{% endfor %}

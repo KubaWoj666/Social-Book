@@ -96,11 +96,16 @@ Social Book
         {% endfor %}
     </div>
 
-    <div class="suggestions mt-5">
-        
-        {% include 'core/partials/follow_suggestions.html' %}
-        
-    </div>
+    
+        <div class="suggestions mt-5"> 
+            {% include 'core/partials/follow_suggestions.html' %}
+        </div>  
+    
+
+    <aside class="chat_suggestions mt-5">
+        {% include 'core/partials/chat_suggestions.html' %}
+    </aside>
+
 </div>
 
 

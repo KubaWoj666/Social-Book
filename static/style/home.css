@@ -13,9 +13,12 @@
 }
 
 .cards {
-    margin-left: 10rem;
+    /* margin-left: 10rem; */
 }
-
+aside{
+    float: right;
+    width: 300px;
+}
 .suggestions {
     float: left;
     width: 300px;
