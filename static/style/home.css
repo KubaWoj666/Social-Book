@@ -1,20 +1,13 @@
-/* .container {
-    display: flex;
-    justify-content: center;
-    flex-direction: column; 
-} */
+
 
 .post-container {
     float: left;
 }
 
 .card {
-    width: 600px; /* Set the desired width here */
+    width: 600px;
 }
 
-.cards {
-    /* margin-left: 10rem; */
-}
 aside{
     float: right;
     width: 300px;

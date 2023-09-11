@@ -10,6 +10,7 @@ def chat(request, username):
     request_user_profile = Profile.objects.get(user=user)
 
     user_obj = Profile.objects.get(user__username = username)
+    print(user_obj)
 
     users = Profile.objects.exclude(user=user)
 
