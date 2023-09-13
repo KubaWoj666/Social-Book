@@ -13,10 +13,6 @@
                     <a href="{% url 'main_chat' profile.user.username %}">@{{profile.user.username}}</a>
                 </div>     
             </div>
-            <!-- <form hx-post="{% url 'follow-suggestions' %}">
-                <input type="hidden" name="follow_suggestion_username" value="{{user.user.username}}">
-                <button  class="badge bg-primary rounded-pill"> Follow</button>
-            </form> -->
         </li>
     </ol>
 {% endfor %}

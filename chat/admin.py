@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import ChatModel
+
+class adminChat(admin.ModelAdmin):
+    list_display = ["message", "sender", "thread_name"]
+
+admin.site.register(ChatModel, adminChat)

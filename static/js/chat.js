@@ -1,9 +1,13 @@
 
 const id = JSON.parse(document.getElementById("user_id").textContent)
 const request_user_username = JSON.parse(document.getElementById("request_user_id").textContent)
-const user_username = JSON.parse(document.getElementById("user_username").textContent)
-console.log(user_username)
+const message_username = JSON.parse(document.getElementById("user_username").textContent)
 
+const messageContainer = document.getElementById('chat-body');
+
+function scrollToBottom() {
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+}
 
 const socket = new WebSocket(
     'ws://'
@@ -24,7 +28,7 @@ socket.close = function(e){
 
 socket.onmessage = function(e){
     const data = JSON.parse(e.data)
-    if (data.username == user_username){
+    if (data.username == message_username){
         document.querySelector('#chat-body').innerHTML += 
         `
         <td>
@@ -33,6 +37,7 @@ socket.onmessage = function(e){
             </p>
         </td>
         `
+        
     }else{
         document.querySelector('#chat-body').innerHTML += `
         <td>
@@ -41,8 +46,12 @@ socket.onmessage = function(e){
             </p>
         </td>
         `
+        
 
     }
+
+    scrollToBottom()
+    
 }
 
 
@@ -52,21 +61,6 @@ document.querySelector("#message_input").onkeyup = function(e){
         document.getElementById("chat-message-submit").click()
     }
 }
-// document.getElementById("chat-message-submit").onclick = function(e){
-//     const message_input = document.querySelector("#message_input")
-//     const message = message_input.value
-
-//     socket.send(JSON.stringify({
-//         "message": message,
-//         "username": user_username
-//     }))
-
-    
-
-//     message_input.value = ""
-
-    
-// }
 
 document.querySelector('#chat-message-submit').onclick = function(e){
     const message_input = document.querySelector("#message_input");
@@ -74,7 +68,11 @@ document.querySelector('#chat-message-submit').onclick = function(e){
 
     socket.send(JSON.stringify({
         'message':message,
-        'username':user_username
+        'username':message_username,
+        'sender_username': request_user_username
     }));
     message_input.value = "";
+    
 } 
+
+

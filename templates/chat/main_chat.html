@@ -89,8 +89,8 @@
 
             </div>
             <div class="col-sm-8 message-area">
-                <div class="message-table-scroll">
-                    <table class="table">
+                <div  class="message-table-scroll">
+                    <table id="chat-body"class="table">
                         <tbody id='chat-body'>
                             {% for message in messages %}
                             {% if message.sender == request.user.username %}
