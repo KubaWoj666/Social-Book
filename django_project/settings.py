@@ -41,8 +41,8 @@ INSTALLED_APPS = [
 
     'django.contrib.sites',
 
-    'core',
-    'chat',
+    'core.apps.CoreConfig',
+    'chat.apps.ChatConfig',
 
     'allauth',
     'allauth.account',

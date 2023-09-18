@@ -4,7 +4,7 @@ from .models import Profile, Post, Likes, Followers, Comment
 
 
 class AdminProfile(admin.ModelAdmin):
-    list_display = ["user"]
+    list_display = ["user", "online_status"]
 
 admin.site.register(Profile, AdminProfile)
 

@@ -3,6 +3,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 
 from .models import ChatModel
+from core.models import Profile
 
 class ChatConsumer(AsyncWebsocketConsumer):
 
@@ -66,3 +67,52 @@ class ChatConsumer(AsyncWebsocketConsumer):
         
         ChatModel.objects.create(sender=username, message=message, thread_name=thread_name)
    
+
+
+class OnlineStatusConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.room_group_name = 'user'
+
+        await self.channel_layer.group_add(
+            self.room_group_name,
+            self.channel_name
+        )
+        await self.accept()
+
+    
+    async def receive(self, text_data=None, bytes_data=None):
+        data = json.loads(text_data)
+        username = data["username"]
+        connection_type = data["type"]
+        print(username, connection_type)
+        await self.change_online_status(username, connection_type)
+    
+
+    async def send_online_status(self, event):
+        data = json.loads(event.get('value'))
+        username = data["username"]
+        online_status = data["status"]
+        print(username)
+        await self.send(text_data=json.dumps({
+            "username": username,
+            "online_status": online_status
+
+        }))
+
+
+    async def disconnect(self, code):
+        await self.channel_layer.group_discard(
+            self.room_group_name,
+            self.channel_name)
+   
+
+    @database_sync_to_async
+    def change_online_status(self, username, c_type):
+        user_profile= Profile.objects.get(user__username=username)
+
+        if c_type == "open":
+            user_profile.online_status = True
+            user_profile.save()
+        else:
+            user_profile.online_status = False
+            user_profile.save()

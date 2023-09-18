@@ -1,13 +1,7 @@
 
 const id = JSON.parse(document.getElementById("user_id").textContent)
-const request_user_username = JSON.parse(document.getElementById("request_user_id").textContent)
+const request_user_username = JSON.parse(document.getElementById("request_user_username").textContent)
 const message_username = JSON.parse(document.getElementById("user_username").textContent)
-
-const messageContainer = document.getElementById('chat-body');
-
-function scrollToBottom() {
-    messageContainer.scrollTop = messageContainer.scrollHeight;
-}
 
 const socket = new WebSocket(
     'ws://'
@@ -15,12 +9,11 @@ const socket = new WebSocket(
     + '/ws/'
     + id
     + '/'
-);
+)
 
 socket.onopen = function(e){
     console.log("connected")
-};
-
+}
 
 socket.close = function(e){
     console.log("disconected")
@@ -36,8 +29,7 @@ socket.onmessage = function(e){
                 ${data.message}
             </p>
         </td>
-        `
-        
+        ` 
     }else{
         document.querySelector('#chat-body').innerHTML += `
         <td>
@@ -48,10 +40,7 @@ socket.onmessage = function(e){
         `
         
 
-    }
-
-    scrollToBottom()
-    
+    }  
 }
 
 
@@ -71,8 +60,5 @@ document.querySelector('#chat-message-submit').onclick = function(e){
         'username':message_username,
         'sender_username': request_user_username
     }));
-    message_input.value = "";
-    
+    message_input.value = "";  
 } 
-
-

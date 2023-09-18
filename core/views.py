@@ -48,12 +48,11 @@ def home_view(request):
     request_user_liked_post = [post.id for post in posts if Likes.objects.filter(post=post, user=user, liked=True).exists()] 
             
     user_following = Followers.objects.filter(follower=user).values_list('following__id', flat=True)
-    print(user_following)
     
     user_suggestions = Profile.objects.exclude(user=user.id).exclude(user__in=user_following)
-    print("user", user_suggestions)
+    
     chat_suggestions = Profile.objects.filter(user__in=user_following)
-    print("chat:",  chat_suggestions)
+    
     
     try:
         user_suggestions = random.sample(list(user_suggestions), 3)

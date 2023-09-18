@@ -46,10 +46,10 @@
             <div class="col-sm-8">
                 <img src="{{ user_obj.image.url}}" alt="" class="profile-image rounded-circle">
                 <span class="ml-2">{{user_obj.user.username}}</span>
-                {% if user.userprofilemodel.online_status %}
-                <small id="{{user.username}}_small">Online</small>
+                {% if user_obj.online_status %}
+                <small id="{{user_obj.user.username}}_small">Online</small>
                 {% else %}
-                <small id="{{user.username}}_small">Offline</small>
+                <small id="{{user_obj.user.username}}_small">Offline</small>
                 {% endif %}
                 <span class="float-right mt-2">
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor"
@@ -74,11 +74,14 @@
                         <tbody>
                             {% for profile in users %}
                             <tr>
-                                <td><img src="{{ profile.image.url }}" alt="" class="profile-image rounded-circle">
-                                </td>
+                                <td><img src="{{ profile.image.url }}" alt="" class="profile-image rounded-circle"></td>
                                 
-                                <td><a style="color: green" id="{{profile.user.username}}_status" href="{% url 'main_chat' profile.user.username %}">{{profile.user.username}}</a></td>
-                                
+                                {% if profile.online_status %}
+                                    <td><a style="color: green" id="{{user.username}}_status" href="{% url 'main_chat' profile.user.username %}">{{profile.user.username}}</a></td>
+                                {% else %}
+                                    <td><a style="color: grey" id="{{user.username}}_status" href="{% url 'main_chat' profile.user.username %}">{{profile.user.username}}</a></td>
+                                {% endif %}
+                                    
                             </tr>
                             {% endfor %}
 
@@ -163,10 +166,12 @@
 
 </div>
 {{user_obj.user.id|json_script:"user_id"}}
-{{request.user.username|json_script:"request_user_id"}}
+{{request.user.username|json_script:"request_user_username"}}
 {{user_obj.user.username|json_script:"user_username"}}
 
 
 <script src="{% static 'js/chat.js' %}"></script>
+<script src="{% static 'js/online_status.js' %}"></script>
+
 {% endblock content %}
     
