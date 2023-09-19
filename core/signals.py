@@ -15,15 +15,17 @@ def send_online_status(sender, instance, created ,**kwargs):
         channel_layers = get_channel_layer()
         user = instance.user.username
         user_status = instance.online_status
+        print("from signal", user)
+        print(user_status)
 
         data = {
             "username": user,
             "status": user_status
         }
 
-        async_to_sync(channel_layers.group_send(
+        async_to_sync(channel_layers.group_send)(
             'user', {
                 "type": "send_online_status",
                 "value": json.dumps(data, default=str)
             }
-        ))
+        )

@@ -77,9 +77,9 @@
                                 <td><img src="{{ profile.image.url }}" alt="" class="profile-image rounded-circle"></td>
                                 
                                 {% if profile.online_status %}
-                                    <td><a style="color: green" id="{{user.username}}_status" href="{% url 'main_chat' profile.user.username %}">{{profile.user.username}}</a></td>
+                                    <td><a style="color: green" id="{{profile.user.username}}_status" href="{% url 'main_chat' profile.user.username %}">{{profile.user.username}}</a></td>
                                 {% else %}
-                                    <td><a style="color: grey" id="{{user.username}}_status" href="{% url 'main_chat' profile.user.username %}">{{profile.user.username}}</a></td>
+                                    <td><a style="color: grey" id="{{profile.user.username}}_status" href="{% url 'main_chat' profile.user.username %}">{{profile.user.username}}</a></td>
                                 {% endif %}
                                     
                             </tr>

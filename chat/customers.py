@@ -38,10 +38,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         username = data["username"]
         sender_username = data["sender_username"]
 
-        print(username)
-        print(sender_username)
-
-
         await self.save_messages(sender_username, message, self.room_group_name)
 
         await self.channel_layer.group_send(

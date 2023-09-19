@@ -12,11 +12,11 @@ const socket = new WebSocket(
 )
 
 socket.onopen = function(e){
-    console.log("connected")
+    // console.log("connected")
 }
 
 socket.close = function(e){
-    console.log("disconected")
+    // console.log("disconected")
 }
 
 socket.onmessage = function(e){
