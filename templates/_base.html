@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block css %}     
     {% endblock css %}
-        
+
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'style/base.css' %}">
 
@@ -14,13 +15,12 @@
 
     <title>{% block title %}Social Book{% endblock title %}</title>
 
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    
+   
         
 </head>
 
-<body>
+<body hx-ext="ws" ws-connect="/ws/notifications/">
     
     {% block nav %}
         {% include 'nav.html' %}
@@ -30,19 +30,44 @@
         
     {% endblock content %}
 
-    <!-- <script src="{% static 'js/htmx/htmx.min.js' %}" defer></script>
-    <script src="{% static 'js/htmx/debug.js' %}" defer></script> -->
-
+   
+  
     <script src="https://unpkg.com/htmx.org@1.9.2"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+     <!-- HTMX Webcocket Extension -->
+     <script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script>
+
 
     
     <script>
         document.body.addEventListener('htmx:configRequest', function(evt) {
           evt.detail.headers['X-CSRFToken'] = '{{csrf_token}}'; 
       });
-      </script>
+      
+        let numberSpan = document.getElementById('notification-number');
+        let clearBtn = document.getElementById("clear-button")
+
+        console.log(numberSpan.innerHTML)
+        
+        document.body.addEventListener('htmx:wsAfterMessage', (e) => {
+            let numberOfNotifications = numberSpan.innerHTML;
+            console.log(numberOfNotifications)
+            if (!numberOfNotifications) {
+                numberSpan.innerHTML = 1;
+            } else {
+                numberSpan.innerHTML = parseInt(numberOfNotifications) + 1;                
+            }
+            console.log(numberSpan.innerHTML)
+        });
+
+        clearBtn.addEventListener("click", (e)=>{
+            
+        })
+
+
+    </script>
 
       
 </body>

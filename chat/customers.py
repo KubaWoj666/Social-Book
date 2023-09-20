@@ -80,7 +80,6 @@ class OnlineStatusConsumer(AsyncWebsocketConsumer):
         data = json.loads(text_data)
         username = data["username"]
         connection_type = data["type"]
-        print(username, connection_type)
         await self.change_online_status(username, connection_type)
     
 
@@ -88,7 +87,6 @@ class OnlineStatusConsumer(AsyncWebsocketConsumer):
         data = json.loads(event.get('value'))
         username = data["username"]
         online_status = data["status"]
-        print(username)
         await self.send(text_data=json.dumps({
             "username": username,
             "online_status": online_status

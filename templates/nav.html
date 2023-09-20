@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">Social-Book</a>
@@ -40,7 +41,18 @@
         </ul>
         
         <ul class="navbar-nav">
-            
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-right:10px;">
+              <i class="fa-solid fa-bell"> </i>
+              <span id="notification-number" ></span>
+            </a>
+            <ul id="notification-dropdown" class="dropdown-menu">
+              
+              <li><hr class="dropdown-divider"></li>
+              <li><a id="clear-button"class="dropdown-item" href="#">Clear All</a></li>
+            </ul>
+          </li>
+                <!-- <button id="btn btn-link" type="button" class=" navbar-text btn btn-link" style="margin-right:10px; "><i class="fa-solid fa-bell"></i></button> -->
                 {% if user.is_authenticated %}
                 <span class="navbar-text">Logged in as  
                 <a  href="{% url 'profile' user.username %}" role="button" >
@@ -68,3 +80,4 @@
   </nav>
 
   <div>
+

@@ -14,7 +14,7 @@ Social Book
     
 
 {% block content %}
-<div class="container">
+<div class="container" >
     <div class="post-container">
         {% for post in posts %}
             <div class="cards">
@@ -37,7 +37,7 @@ Social Book
                         {% endif %}
                         <a class="nav-link" >
                             <button type="button" data-bs-toggle="modal" data-bs-target="#carousel">
-                                <img id="post_ing" src="{{post.image.url}}" class="card-img-top " alt="...">
+                                <img id="post_img" src="{{post.image.url}}" class="card-img-top " alt="...">
                             </button>
                         </a> 
                     </div>
@@ -45,12 +45,12 @@ Social Book
                         <div class="d-flex justify-content-between ">
                             <h5 class="card-title  "><a href="{% url 'profile' post.user.username %}">@{{post.user.username}} </a>| <a href="{{ post.get_absolute_url }}">{{post.title}}</a></h5>
                             <div class="d-flex justify-content-between ">
-                                <form hx-post="{% url 'home' %}">
+                                <form id="like-form" hx-post="{% url 'home' %}">
                                     <input type="hidden" name="post_id" value="{{post.id}}">
                                     {% if post.id in request_user_liked_post %}
-                                        <button type="submit" class="btn btn-link "><i class="fa-solid fa-heart fa-xl " style="color: #f2075a;"></i></button>
+                                        <button id="unlike" type="submit" class="btn btn-link "><i class="fa-solid fa-heart fa-xl " style="color: #f2075a;"></i></button>
                                     {% else %}
-                                        <button type="submit" class="btn btn-link "><i class="fa-regular fa-heart fa-xl" style="color: #f2075a;"></i></button>
+                                        <button id="like" type="submit" class="btn btn-link "><i class="fa-regular fa-heart fa-xl" style="color: #f2075a;"></i></button>
                                     {% endif %}
                                 </form>
                             </div>   
@@ -110,12 +110,13 @@ Social Book
 
 
 {% include 'core/partials/create_post.html' %}
-
-
 {% include 'core/partials/carousel.html' %}
 
 
+{{request.user.id|json_script:"request-user-id"}}
+{{request.user.username|json_script:"request-user-username"}}
 
+<script src="{% static 'js/like_notification.js' %}"></script>
 {% endblock content %}
     
 

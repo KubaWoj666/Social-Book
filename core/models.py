@@ -31,6 +31,7 @@ class Post(models.Model):
     description = models.TextField(blank=True)
     created= models.DateTimeField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
+    liked = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.title

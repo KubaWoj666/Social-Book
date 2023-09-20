@@ -9,7 +9,7 @@ class AdminProfile(admin.ModelAdmin):
 admin.site.register(Profile, AdminProfile)
 
 class AdminPosts(admin.ModelAdmin):
-    list_display = ["title", "user"]
+    list_display = ["title", "user", "liked"]
 
 admin.site.register(Post, AdminPosts)
 

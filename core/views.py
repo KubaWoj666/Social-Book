@@ -7,7 +7,7 @@ from django.db.models import Q
 from .models import Post, Profile, Followers, Likes, Comment
 from .forms import CreatePostForm, CreateProfile
 from django.contrib.auth.models import User
-
+from django.http import HttpResponse
 from django_htmx.http import HttpResponseClientRefresh, HttpResponseClientRedirect
 
 
@@ -36,11 +36,14 @@ def home_view(request):
             if Likes.objects.filter(post=post, user=user, liked=True).exists():
                 unlike = Likes.objects.get(user=user, post=post, liked=True)
                 unlike.delete()
-                return HttpResponseClientRefresh()
+                # return HttpResponseClientRefresh()
+                return HttpResponse(status=200)
             else:
                 like = Likes.objects.create(user=user, post=post, liked=True)
                 like.save()
-                return HttpResponseClientRefresh()
+                # return HttpResponseClientRefresh()
+                return HttpResponse(status=200)
+            
         except:
             return redirect("home")
     

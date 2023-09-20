@@ -22,8 +22,7 @@ window.addEventListener('beforeunload',(e)=>{
         "username": user_username,
         "type": "close"
     }))
-}
-)
+})
 
 online_socket.onclose = function(e){
     // console.log("Online status diconected");
