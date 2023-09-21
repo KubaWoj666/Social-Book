@@ -54,12 +54,16 @@ def send_like_notification(sender, created, instance, **kwargs):
         post_id = str(instance.post.id)
         post = Post.objects.get(id=post_id)
         post.liked = True
+        post_owner = post.user.username
+        post_title = post.title
         post.save()
         print(username, post_id)
 
         data = {
             "user_who_like_post": username,
             "post_id": post_id,
+            "post_title": post_title,
+            "post_owner": post_owner,
             "liked": "true"
         }
 
