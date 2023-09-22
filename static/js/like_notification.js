@@ -1,17 +1,7 @@
 const request_user_id = JSON.parse(document.getElementById("request-user-id").textContent)
 const request_user_username = JSON.parse(document.getElementById("request-user-username").textContent)
-const like_btn = document.getElementById("like")
-const form = document.getElementById("like-form")
-// const notification = document.getElementById("notification")
-// const notification_dropdown = document.getElementById("notification-dropdown")
-// console.log(request_user_username);
-// console.log(notification.textContent);
 
-// notification_dropdown.innerHTML+=`
-// <li >
-//                 <span id="notification">dupa</span>
-//               </li>
-// `
+
 
 
 const like_websocket = new WebSocket(
@@ -29,9 +19,11 @@ like_websocket.onopen = (e)=>{
     }))
 }
 
+
 like_websocket.onclose = (e)=>{
     console.log("like_websocket disconected");
 }
+
 
 like_websocket.onmessage = (e)=>{
     data = JSON.parse(e.data)
@@ -40,17 +32,31 @@ like_websocket.onmessage = (e)=>{
     post_title = data.post_title
     post_owner = data.post_owner
 
-    console.log(typeof(post_id));
+    let span_num_of_notification = document.getElementById("number-of-notification")
+    let num_of_notification = span_num_of_notification.innerHTML
     
-    console.log(username + " - " + post_id + " - " + post_title);
-    console.log(post_owner);
-    
+
+    if (post_owner == request_user_username){
+        
+        const notification_dropdown = document.getElementById("notification-dropdown")
+        notification_dropdown.innerHTML+=`
+        <li>
+              <div class="alert alert-primary" role="alert">
+              ${username} liked ${post_title}
+              </div>
+            </li>
+        
+        `
+        if (num_of_notification == none) {
+            numberSpan.innerHTML = 1;
+        } else {
+            numberSpan.innerHTML = parseInt(num_of_notification) + 1;                
+        }
+
+    }
+
 }
+    
 
 
-like_btn.addEventListener('click', (e)=>{
-    console.log("clicke")
-    form.innerHTML = `
-    <button id="unlike" type="submit" class="btn btn-link "><i class="fa-solid fa-heart fa-xl " style="color: #f2075a;"></i></button>
-    `
-})
+

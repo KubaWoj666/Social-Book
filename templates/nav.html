@@ -37,24 +37,33 @@
           <li class="nav-item">
             <a class="nav-link disabled">Disabled</a>
           </li>
-        </ul>
-        </ul>
-        
-        <ul class="navbar-nav">
+
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-right:10px;">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="fa-solid fa-bell"> </i>
-              <span id="notification-number" ></span>
+              <span id="number-of-notification" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                1
+              </span>
             </a>
-            <ul id="notification-dropdown" class="dropdown-menu">
-              <li >
-                <span id="notification">opa</span>
+            <ul class="dropdown-menu">
+              <div id="notification-dropdown">
+              <li>
+                
               </li>
+              </div>
               <li><hr class="dropdown-divider"></li>
-              <li><a id="clear-button"class="dropdown-item" href="#">Clear All</a></li>
+              <div>
+              <li><a class="dropdown-item" href="#">Clear All</a></li>
+              </div>
             </ul>
           </li>
-                <!-- <button id="btn btn-link" type="button" class=" navbar-text btn btn-link" style="margin-right:10px; "><i class="fa-solid fa-bell"></i></button> -->
+        </ul>
+        </ul>
+
+       
+        
+        <ul class="navbar-nav">
+     
                 {% if user.is_authenticated %}
                 <span class="navbar-text">Logged in as  
                 <a  href="{% url 'profile' user.username %}" role="button" >
