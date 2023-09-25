@@ -46,7 +46,7 @@ Social Book
                             <h5 class="card-title  "><a href="{% url 'profile' post.user.username %}">@{{post.user.username}} </a>| <a href="{{ post.get_absolute_url }}">{{post.title}}</a></h5>
                             <div class="d-flex justify-content-between ">
                                 <form id="like-form" hx-post="{% url 'home' %}">
-                                    <input type="hidden" name="post_id" value="{{post.id}}">
+                                    <input id="input" type="hidden" name="post_id" value="{{post.id}}">
                                     {% if post.id in request_user_liked_post %}
                                         <button id="unlike" type="submit" class="btn btn-link "><i class="fa-solid fa-heart fa-xl " style="color: #f2075a;"></i></button>
                                     {% else %}
@@ -110,13 +110,15 @@ Social Book
 
 
 {% include 'core/partials/create_post.html' %}
-{% include 'core/partials/carousel.html' %}
+
 
 
 {{request.user.id|json_script:"request-user-id"}}
 {{request.user.username|json_script:"request-user-username"}}
 
 <script src="{% static 'js/like_notification.js' %}"></script>
+
+
 {% endblock content %}
     
 

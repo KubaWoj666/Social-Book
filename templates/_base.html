@@ -20,7 +20,7 @@
         
 </head>
 
-<body hx-ext="ws" ws-connect="/ws/notifications/">
+<body >
     
     {% block nav %}
         {% include 'nav.html' %}
@@ -46,7 +46,16 @@
           evt.detail.headers['X-CSRFToken'] = '{{csrf_token}}'; 
       });
       
-        let numberSpan = document.getElementById('notification-number');
+        
+
+
+    </script>
+
+      
+</body>
+</html>
+<!-- 
+let numberSpan = document.getElementById('notification-number');
         let clearBtn = document.getElementById("clear-button")
 
         console.log(numberSpan.innerHTML)
@@ -64,11 +73,4 @@
 
         clearBtn.addEventListener("click", (e)=>{
             
-        })
-
-
-    </script>
-
-      
-</body>
-</html>
+        }) -->

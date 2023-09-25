@@ -9,12 +9,16 @@ from .forms import CreatePostForm, CreateProfile
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django_htmx.http import HttpResponseClientRefresh, HttpResponseClientRedirect
+from django.http import JsonResponse
 
 
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 @login_required(login_url="account_login")
 def home_view(request):
     page = "home"
+    data = {}
     posts = Post.objects.all()
     profile = Profile.objects.get(user=request.user)
         
@@ -27,6 +31,16 @@ def home_view(request):
             return redirect("home")
     else:
         form = CreatePostForm()
+
+    # if is_ajax(request=request):
+    #     user = request.user
+    #     print("ajax")
+    #     post = Post.objects.get(id=request.POST.get("post_id"))
+    #     like = Likes.objects.create(user=user, post=post, liked=True)
+    #     like.save()
+    #     data['post_id'] = request.POST.get("post_id")
+    #     data["status"] = "ok"
+    #     return JsonResponse(data)
     
     if request.htmx:
         user = request.user
@@ -36,13 +50,12 @@ def home_view(request):
             if Likes.objects.filter(post=post, user=user, liked=True).exists():
                 unlike = Likes.objects.get(user=user, post=post, liked=True)
                 unlike.delete()
-                # return HttpResponseClientRefresh()
-                return HttpResponse(status=200)
+                return HttpResponseClientRefresh()
+               
             else:
                 like = Likes.objects.create(user=user, post=post, liked=True)
                 like.save()
-                # return HttpResponseClientRefresh()
-                return HttpResponse(status=200)
+                return HttpResponseClientRefresh()
             
         except:
             return redirect("home")
@@ -230,7 +243,6 @@ def delete_post(request, pk):
 @login_required(login_url="account_login")
 def comment(request):
     user = request.user
-    next_url = request.GET.get("next")
    
     if request.htmx:
         post_id = request.POST.get("post_id")
@@ -238,10 +250,6 @@ def comment(request):
         body = request.POST.get("body")
         comment = Comment.objects.create(owner=user, post=post, body=body)
         comment.save()
-    #     if next_url:
-    #         return redirect(next_url)
-    
-    # return render(request, "core/home.html")
     return HttpResponseClientRefresh()
     
    

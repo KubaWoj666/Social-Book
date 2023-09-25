@@ -47,10 +47,10 @@ like_websocket.onmessage = (e)=>{
             </li>
         
         `
-        if (num_of_notification == none) {
-            numberSpan.innerHTML = 1;
+        if (!num_of_notification) {
+            span_num_of_notification.innerHTML = 1;
         } else {
-            numberSpan.innerHTML = parseInt(num_of_notification) + 1;                
+            span_num_of_notification.innerHTML = parseInt(num_of_notification) + 1;                
         }
 
     }
