@@ -8,13 +8,9 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{%url 'home'%}">Home</a>
-          </li>
-          
           {% if page == "home" %}
           <li class="nav-item">
-            <a class="nav-link" ><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <a class="nav-link" ><button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal">
               Create Post
             </button></a>
           </li>
@@ -23,23 +19,9 @@
           {% endif %}
             
           
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled">Disabled</a>
-          </li>
           
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle mt-2 me-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="fa-solid fa-bell"></i>
             </a>
             <span id="number-of-notification" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"></span>
@@ -61,13 +43,14 @@
        
         
         <ul class="navbar-nav">
-     
+                <button class="btn btn-link mt-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="fa-regular fa-message fa-lg"></i></button>
+
                 {% if user.is_authenticated %}
                 <span class="navbar-text">Logged in as  
                 <a  href="{% url 'profile' user.username %}" role="button" >
                     {{user.username}}</a> </span>
                 <li class="nav-item">
-                <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+                <a class="nav-link" href="{% url 'account_logout' %}">| Logout</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
@@ -79,11 +62,6 @@
                 {% endif %}
             
         </ul>
-        
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
       </div>
     </div>
   </nav>

@@ -102,9 +102,9 @@ Social Book
         </div>  
     
 
-    <aside class="chat_suggestions mt-5">
+ 
         {% include 'core/partials/chat_suggestions.html' %}
-    </aside>
+    
 
 </div>
 
@@ -117,6 +117,7 @@ Social Book
 {{request.user.username|json_script:"request-user-username"}}
 
 <script src="{% static 'js/notifications.js' %}"></script>
+
 
 
 {% endblock content %}

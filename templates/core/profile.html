@@ -53,7 +53,7 @@
                         <h5 class="font-weight-bold mb-0 d-block">{{posts.count}}</h5><small class="text-muted"> <i class="fa fa-picture-o mr-1"></i>Posts</small>
                     </li>
                     <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">{{followers.count}}</h5><small class="text-muted"> <i class="fa fa-user-circle-o mr-1"></i>Followers</small>
+                        <h5 class="font-weight-bold mb-0 d-block">{{followers.count}}</h5><small id="followers" class="text-muted"> <i class="fa fa-user-circle-o mr-1"></i>Followers</small>
                     </li>
                     <li class="list-inline-item">
                         <h5 class="font-weight-bold mb-0 d-block">{{follow.count}}</h5><small class="text-muted"> <i class="fa fa-user-circle-o mr-1"></i>Follow</small>
@@ -86,6 +86,8 @@
         </div>
     </div>
 </div>
+
+<script src="{% static 'js/profile.js' %}"></script>
 
 {% endblock content %}
     
