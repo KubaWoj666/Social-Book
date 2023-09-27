@@ -2,7 +2,7 @@ import json
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from .models import Profile, Post, Likes
+from .models import Profile, Post, Likes, Followers, Comment
 
 from channels.layers import get_channel_layer
 
@@ -53,7 +53,6 @@ def send_like_notification(sender, created, instance, **kwargs):
         username = instance.user.username
         post_id = str(instance.post.id)
         post = Post.objects.get(id=post_id)
-        post.liked = True
         post_owner = post.user.username
         post_title = post.title
         post.save()
@@ -74,3 +73,51 @@ def send_like_notification(sender, created, instance, **kwargs):
                 "value": json.dumps(data)
             }
         )
+
+
+@receiver(post_save, sender=Followers)
+def send_follow_notification(sender, created, instance, **kwargs):
+    if created:
+        chanel_layer = get_channel_layer()
+        group_name = "like-notification"
+
+        request_user = instance.follower.username
+        following_user = instance.following.username
+
+        data = {
+            "request_user": request_user,
+            "following_user": following_user,
+
+        }
+
+        async_to_sync(chanel_layer.group_send)(
+            group_name, {
+                "type": "user_follow",
+                "value": json.dumps(data)
+            }
+        )
+
+
+@receiver(post_save, sender=Comment)
+def send_comment_notification(sender, created, instance, **kwargs):
+    if created:
+        channel_layer = get_channel_layer()
+        group_name = "like-notification"
+
+        comment_owner = instance.owner.username
+        commented_post_title = instance.post.title
+        commented_post_owner = instance.post.user.username
+
+        data = {
+            "comment_owner": comment_owner,
+            "commented_post_title": commented_post_title,
+            "commented_post_owner": commented_post_owner
+        }
+
+        async_to_sync(channel_layer.group_send)(
+            group_name, {
+                "type": "user_comment",
+                "value": json.dumps(data)
+            }
+        )
+

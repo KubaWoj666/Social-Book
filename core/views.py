@@ -9,16 +9,11 @@ from .forms import CreatePostForm, CreateProfile
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django_htmx.http import HttpResponseClientRefresh, HttpResponseClientRedirect
-from django.http import JsonResponse
 
-
-def is_ajax(request):
-    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 @login_required(login_url="account_login")
 def home_view(request):
     page = "home"
-    data = {}
     posts = Post.objects.all()
     profile = Profile.objects.get(user=request.user)
         
@@ -32,16 +27,6 @@ def home_view(request):
     else:
         form = CreatePostForm()
 
-    # if is_ajax(request=request):
-    #     user = request.user
-    #     print("ajax")
-    #     post = Post.objects.get(id=request.POST.get("post_id"))
-    #     like = Likes.objects.create(user=user, post=post, liked=True)
-    #     like.save()
-    #     data['post_id'] = request.POST.get("post_id")
-    #     data["status"] = "ok"
-    #     return JsonResponse(data)
-    
     if request.htmx:
         user = request.user
         try:
@@ -180,7 +165,7 @@ def follow_suggestions(request):
         follow = Followers.objects.create(follower=user, following=user_to_follow)
         follow.save()
         return HttpResponseClientRefresh()
-
+    
     return render(request, "core/partials/follow_suggestions.html")
 
 @login_required(login_url="account_login")

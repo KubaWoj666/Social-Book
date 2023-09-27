@@ -14,7 +14,7 @@
                 </div>     
             </div>
             <form hx-post="{% url 'follow-suggestions' %}">
-                <input type="hidden" name="follow_suggestion_username" value="{{profile.user.username}}">
+                <input id="user-to-follow" type="hidden" name="follow_suggestion_username" value="{{profile.user.username}}">
                 <button  class="badge bg-primary rounded-pill"> Follow</button>
             </form>
         </li>

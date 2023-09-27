@@ -3,6 +3,5 @@ from . import consumers
 
 
 core_websocket_urlpatterns = [
-    path("ws/notifications/", consumers.NotificationConsumer.as_asgi()),
-    path("ws/like-notification/", consumers.LikeNotificationConsumer.as_asgi()),
+    path("ws/notification/", consumers.LikeNotificationConsumer.as_asgi()),
 ]

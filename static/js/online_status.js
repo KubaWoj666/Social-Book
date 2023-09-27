@@ -1,5 +1,5 @@
 const user_username = JSON.parse(document.getElementById("request_user_username").textContent)
-// console.log(user_username)
+
 
 const online_socket = new WebSocket(
     "ws://"
@@ -9,7 +9,6 @@ const online_socket = new WebSocket(
 )
 
 online_socket.onopen = function(e){
-    // console.log("Online status connected");
     online_socket.send(JSON.stringify({
         "username": user_username,
         "type":"open",
@@ -25,7 +24,7 @@ window.addEventListener('beforeunload',(e)=>{
 })
 
 online_socket.onclose = function(e){
-    // console.log("Online status diconected");
+    console.log("Online status diconected");
 }
 
 online_socket.onmessage = function(e){
